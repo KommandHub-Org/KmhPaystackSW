@@ -53,7 +53,7 @@ readonly class PaymentMethodInstaller
                 'name' => 'Pay with Paystack',
                 'description' => 'Securely pay with card, bank transfer or mobile money via Paystack.',
                 'pluginId' => $pluginId,
-                'technicalName' => 'kommandhub_paystack_payment',
+                'technicalName' => 'kmh_paystack_payment',
                 'afterOrderEnabled' => true,
                 'active' => true,
             ],
@@ -113,7 +113,7 @@ readonly class PaymentMethodInstaller
     {
         $criteria = new Criteria();
         $criteria->addFilter(
-            new EqualsFilter('technicalName', 'kommandhub_paystack_payment')
+            new EqualsFilter('technicalName', 'kmh_paystack_payment')
         );
 
         $paymentId = $this->paymentMethodRepository

@@ -163,9 +163,9 @@ Paystack refund created ──► refund.pending / refund.processed webhooks upd
 ## Directory Structure
 
 ```text
-KommandhubPaystackSW/
+KmhPaystackSW/
 ├── src/
-│   ├── KommandhubPaystackSW.php          # Plugin base class (lifecycle hooks)
+│   ├── KmhPaystackSW.php          # Plugin base class (lifecycle hooks)
 │   ├── Administration/
 │   │   └── Controller/RefundController.php  # Admin refund API endpoint
 │   ├── BankVerification/
@@ -239,7 +239,7 @@ KommandhubPaystackSW/
 ```bash
 composer require kommandhub/paystack-sw
 bin/console plugin:refresh
-bin/console plugin:install --activate KommandhubPaystackSW
+bin/console plugin:install --activate KmhPaystackSW
 bin/console cache:clear
 ```
 
@@ -259,8 +259,8 @@ The repository ships a Docker Compose stack based on [`dockware`](https://dockwa
 
 ```bash
 # 1. Clone the repository
-git clone <repository-url> KommandhubPaystackSW
-cd KommandhubPaystackSW
+git clone <repository-url> KmhPaystackSW
+cd KmhPaystackSW
 
 # 2. Start the stack (builds the container and prepares the shop)
 make up
@@ -268,12 +268,12 @@ make up
 # 3. Install and activate the plugin inside the container
 make shell
 bin/console plugin:refresh
-bin/console plugin:install --activate KommandhubPaystackSW
+bin/console plugin:install --activate KmhPaystackSW
 bin/console cache:clear
 exit
 ```
 
-The plugin directory is mounted at `/var/www/html/custom/static-plugins/KommandhubPaystackSW`; `.git/`, `node_modules/`, and `vendor/` are excluded from the mount. Changes to source files on the host are reflected immediately in the container.
+The plugin directory is mounted at `/var/www/html/custom/static-plugins/KmhPaystackSW`; `.git/`, `node_modules/`, and `vendor/` are excluded from the mount. Changes to source files on the host are reflected immediately in the container.
 
 Default dockware credentials:
 
@@ -345,7 +345,7 @@ make cs-fix && make analyse && make test
 
 ## Configuration Options
 
-Configure the plugin under **Extensions → My Extensions → Paystack → Configuration**. Options are stored in Shopware's system configuration under the `KommandhubPaystackSW.config.*` domain and read through `Setting\Service\Config`.
+Configure the plugin under **Extensions → My Extensions → Paystack → Configuration**. Options are stored in Shopware's system configuration under the `KmhPaystackSW.config.*` domain and read through `Setting\Service\Config`.
 
 | Key | Type | Purpose |
 | --- | --- | --- |
@@ -470,7 +470,7 @@ Logging goes through `Logging\ConfigurableLogger`, wired to the `paystack_channe
 2. Run:
    ```bash
    bin/console plugin:refresh
-   bin/console plugin:update KommandhubPaystackSW   # migrates handler identifier + custom fields
+   bin/console plugin:update KmhPaystackSW   # migrates handler identifier + custom fields
    bin/console cache:clear
    ```
 3. Ensure compiled Administration and Storefront assets are built and committed as part of the release.

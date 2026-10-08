@@ -1,4 +1,4 @@
-.kommandhub-paystack-detail-card {
+.kmh-paystack-detail-card {
     &__banner {
         display: flex;
         flex-direction: column;
@@ -23,11 +23,11 @@
         text-align: center;
     }
 
-    .kommandhub-paystack-detail-grid {
+    .kmh-paystack-detail-grid {
         padding: 0;
     }
 
-    .kommandhub-paystack-detail-empty-state {
+    .kmh-paystack-detail-empty-state {
         margin: 0;
         min-height: 400px;
         display: flex;
@@ -40,7 +40,7 @@
     }
 }
 
-.kommandhub-paystack-detail-captures-card {
+.kmh-paystack-detail-captures-card {
     margin-top: 20px;
 
     &__title {

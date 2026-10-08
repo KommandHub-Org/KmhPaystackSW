@@ -9,7 +9,7 @@ $loader = (new TestBootstrapper())
     ->addCallingPlugin()
     ->setForceInstallPlugins(true)
     ->addActivePlugins(
-        'KommandhubPaystackSW',
+        'KmhPaystackSW',
     )
     ->bootstrap()
     ->getClassLoader();

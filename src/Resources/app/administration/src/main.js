@@ -15,18 +15,18 @@ Shopware.Service().register('paystackRefundService', (container) => {
 
 import './acl';
 import './module/sw-order/page/sw-order-detail'
-import './view/kommandhub-paystack-detail'
+import './view/kmh-paystack-detail'
 
-Shopware.Module.register('kommandhub-paystack-detail', {
+Shopware.Module.register('kmh-paystack-detail', {
     routeMiddleware(next, currentRoute) {
         if (currentRoute.name === 'sw.order.detail') {
-            const paystackRoute = 'kommandhub.paystack.detail';
+            const paystackRoute = 'kmh.paystack.detail';
 
             if (!currentRoute.children.some(child => child.name === paystackRoute)) {
                 currentRoute.children.push({
                     name: paystackRoute,
-                    path: 'kommandhub/paystack',
-                    component: 'kommandhub-paystack-detail',
+                    path: 'kmh/paystack',
+                    component: 'kmh-paystack-detail',
                     meta: {
                         parentPath: 'sw.order.detail',
                         privilege: 'order.viewer',

@@ -255,12 +255,13 @@ readonly class PayloadBuilder
     private function formatAddress(OrderAddressEntity $address): string
     {
         return sprintf(
-            '%s %s, %s, %s %s, %s',
+            '%s %s, %s, %s %s, %s, %s',
             $address->getFirstName(),
             $address->getLastName(),
             $address->getStreet(),
             $address->getZipcode(),
             $address->getCity(),
+            $address->getCountryState() ? $address->getCountryState()->getName() : '',
             $address->getCountry() ? $address->getCountry()->getName() : ''
         );
     }

@@ -1,11 +1,11 @@
-kommandhub_paystack_bank_verification:
+kmh_paystack_bank_verification:
     resource: ../../BankVerification/Controller/
     type: attribute
 
-kommandhub_paystack_administration:
+kmh_paystack_administration:
     resource: ../../Administration/Controller/
     type: attribute
 
-kommandhub_paystack_webhook:
+kmh_paystack_webhook:
     resource: ../../Webhook/Controller/
     type: attribute

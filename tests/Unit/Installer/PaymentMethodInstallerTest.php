@@ -66,7 +66,7 @@ class PaymentMethodInstallerTest extends TestCase
                 'name' => 'Pay with Paystack',
                 'description' => 'Securely pay with card, bank transfer or mobile money via Paystack.',
                 'pluginId' => 'plugin-id',
-                'technicalName' => 'kommandhub_paystack_payment',
+                'technicalName' => 'kmh_paystack_payment',
                 'afterOrderEnabled' => true,
                 'active' => true,
             ],

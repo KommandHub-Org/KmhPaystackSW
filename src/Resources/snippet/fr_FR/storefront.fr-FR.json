@@ -1,5 +1,5 @@
 {
-  "kommandhub-paystack": {
+  "kmh-paystack": {
     "bankTitle": "Détails du compte bancaire",
     "bankNameLabel": "Nom de la banque",
     "bankNamePlaceholder": "Sélectionnez votre banque",

@@ -70,7 +70,7 @@ class CustomFieldsInstallerTest extends TestCase
 
     private function getCustomFieldSetId(Context $context): ?string
     {
-        $criteria = (new Criteria())->addFilter(new EqualsFilter('name', 'kommandhub_paystack_fieldset'));
+        $criteria = (new Criteria())->addFilter(new EqualsFilter('name', 'kmh_paystack_fieldset'));
 
         return $this->customFieldSetRepository->searchIds($criteria, $context)->firstId();
     }

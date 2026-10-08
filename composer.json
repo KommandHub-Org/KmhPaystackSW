@@ -2,7 +2,7 @@
     "name": "kommandhub/paystack-sw",
     "description": "Independent, third-party Shopware 6 integration for the Paystack payment gateway: accept secure payments via cards, bank transfers, USSD, and mobile money across Africa. Not affiliated with, endorsed by, or officially connected to Paystack.",
     "type": "shopware-platform-plugin",
-    "version": "0.9.0-beta.2",
+    "version": "0.9.0-beta",
     "license": "Apache-2.0",
     "keywords": [
         "shopware",
@@ -22,7 +22,7 @@
         "nigeria",
         "ecommerce"
     ],
-    "homepage": "https://github.com/KommandHub/KommandhubPaystackSW",
+    "homepage": "https://github.com/KommandHub/KmhPaystackSW",
     "authors": [
         {
             "name": "Kommandhub Limited",
@@ -33,9 +33,9 @@
     ],
     "support": {
         "email": "info@kommandhub.com",
-        "issues": "https://github.com/KommandHub/KommandhubPaystackSW/issues",
-        "source": "https://github.com/KommandHub/KommandhubPaystackSW",
-        "docs": "https://github.com/KommandHub/KommandhubPaystackSW/blob/main/README.md"
+        "issues": "https://github.com/KommandHub/KmhPaystackSW/issues",
+        "source": "https://github.com/KommandHub/KmhPaystackSW",
+        "docs": "https://github.com/KommandHub/KmhPaystackSW/blob/main/README.md"
     },
     "require": {
         "shopware/core": "~6.6.0 || ~6.7.0",
@@ -59,7 +59,7 @@
         }
     },
     "extra": {
-        "shopware-plugin-class": "Kommandhub\\PaystackSW\\KommandhubPaystackSW",
+        "shopware-plugin-class": "Kommandhub\\PaystackSW\\KmhPaystackSW",
         "label": {
             "de-DE": "Paystack-Zahlung von Kommandhub",
             "en-GB": "Paystack Payment by Kommandhub",

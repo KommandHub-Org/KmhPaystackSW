@@ -1,16 +1,14 @@
 .PHONY: help up down build restart shell plugin-list test test-coverage cs cs-fix analyse fixture-load resync prepare validate-plugin cli changelog zip
 
 CONTAINER := shopware
-PLUGIN_DIR := custom/static-plugins/KommandhubPaystackSW
+PLUGIN_DIR := custom/static-plugins/KmhPaystackSW
 
 # Plugins installed via composer
 STATIC_PLUGINS := \
-	kommandhub/foundation-sw:KommandhubFoundationSW \
-	kommandhub/paystack-sw:KommandhubPaystackSW
+	kommandhub/paystack-sw:KmhPaystackSW
 
 # Only plugins that should be copied into custom/static-plugins
 STATIC_COPY_PLUGINS := \
-	kommandhub/foundation-sw:KommandhubFoundationSW
 
 # This plugin may ship at any stability (see "version" in composer.json), while
 # the Shopware install it is tested against pins minimum-stability to "stable".

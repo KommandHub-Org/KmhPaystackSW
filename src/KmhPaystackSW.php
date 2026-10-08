@@ -24,7 +24,7 @@ use Symfony\Component\DependencyInjection\Loader\GlobFileLoader;
 use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 
 /**
- * Main Shopware plugin class for Kommandhub Paystack integration.
+ * Main Shopware plugin class for Kmh Paystack integration.
  *
  * Responsibilities:
  * - Registers plugin services (via Symfony container)
@@ -32,7 +32,7 @@ use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
  * - Creates and maintains Paystack payment method
  * - Installs custom fields required for integration
  */
-class KommandhubPaystackSW extends Plugin
+class KmhPaystackSW extends Plugin
 {
     /**
      * Allow composer commands during plugin execution.

@@ -7,7 +7,7 @@ namespace Kommandhub\PaystackSW\Tests\Integration\Plugin;
 use Kommandhub\PaystackSW\Installer\CustomFieldsInstaller;
 use Kommandhub\PaystackSW\Installer\PaymentMethodInstaller;
 use Kommandhub\PaystackSW\Checkout\Payment\Handler\PaystackPaymentHandler;
-use Kommandhub\PaystackSW\KommandhubPaystackSW;
+use Kommandhub\PaystackSW\KmhPaystackSW;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\UsesClass;
@@ -23,20 +23,20 @@ use Shopware\Core\Framework\Plugin\Context\InstallContext;
 use Shopware\Core\Framework\Plugin\Context\UninstallContext;
 use Shopware\Core\Framework\Test\TestCaseBase\IntegrationTestBehaviour;
 
-#[CoversClass(KommandhubPaystackSW::class)]
+#[CoversClass(KmhPaystackSW::class)]
 #[UsesClass(CustomFieldsInstaller::class)]
 #[UsesClass(PaymentMethodInstaller::class)]
 #[UsesClass(PaystackPaymentHandler::class)]
 #[Group('kernel')]
-class KommandhubPaystackSWTest extends TestCase
+class KmhPaystackSWTest extends TestCase
 {
     use IntegrationTestBehaviour;
 
-    private KommandhubPaystackSW $plugin;
+    private KmhPaystackSW $plugin;
 
     protected function setUp(): void
     {
-        $this->plugin = new KommandhubPaystackSW(true, '');
+        $this->plugin = new KmhPaystackSW(true, '');
         $this->plugin->setContainer(static::getContainer());
     }
 
@@ -94,7 +94,7 @@ class KommandhubPaystackSWTest extends TestCase
 
     private function getPaymentMethod(): ?PaymentMethodEntity
     {
-        $criteria = (new Criteria())->addFilter(new EqualsFilter('technicalName', 'kommandhub_paystack_payment'));
+        $criteria = (new Criteria())->addFilter(new EqualsFilter('technicalName', 'kmh_paystack_payment'));
 
         /** @var PaymentMethodEntity|null $paymentMethod */
         $paymentMethod = static::getContainer()
@@ -107,7 +107,7 @@ class KommandhubPaystackSWTest extends TestCase
 
     private function customFieldSetExists(): bool
     {
-        $criteria = (new Criteria())->addFilter(new EqualsFilter('name', 'kommandhub_paystack_fieldset'));
+        $criteria = (new Criteria())->addFilter(new EqualsFilter('name', 'kmh_paystack_fieldset'));
 
         return static::getContainer()
             ->get('custom_field_set.repository')

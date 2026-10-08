@@ -139,11 +139,11 @@ class BankVerificationController extends StorefrontController
             [
                 'id' => $customer->getId(),
                 'customFields' => [
-                    'kommandhub_paystack_bank_name' => $data->get('bankName'),
-                    'kommandhub_paystack_bank_code' => $data->get('bankCode'),
-                    'kommandhub_paystack_account_number' => $data->get('accountNumber'),
-                    'kommandhub_paystack_account_name' => $data->get('accountName'),
-                    'kommandhub_paystack_bvn' => $data->get('bvn'),
+                    'kmh_paystack_bank_name' => $data->get('bankName'),
+                    'kmh_paystack_bank_code' => $data->get('bankCode'),
+                    'kmh_paystack_account_number' => $data->get('accountNumber'),
+                    'kmh_paystack_account_name' => $data->get('accountName'),
+                    'kmh_paystack_bvn' => $data->get('bvn'),
                 ],
             ],
         ], $context->getContext());

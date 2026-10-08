@@ -1,4 +1,4 @@
-# KommandhubPaystackSW
+# KmhPaystackSW
 
 Shopware 6 payment plugin integrating Paystack (cards, bank transfer, USSD) with
 refunds, webhooks, bank-account verification, and African currency/language
@@ -7,7 +7,7 @@ support. PHP namespace root: `Kommandhub\PaystackSW\` → `src/`.
 ## Commands
 
 All commands run inside the Docker dev stack (see `Makefile`). The plugin lives
-at `custom/static-plugins/KommandhubPaystackSW` inside a Shopware install.
+at `custom/static-plugins/KmhPaystackSW` inside a Shopware install.
 
 - `make up` / `make down` — start / tear down the stack
 - `make test` — PHPUnit (`phpunit.dist.xml`). Filter: `make test FILTER=SomeTest`
