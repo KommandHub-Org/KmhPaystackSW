@@ -4,7 +4,7 @@
     {{ parent() }}
 
     {% block page_account_profile_paystack_bank_visibility %}
-        {% if config('KommandhubPaystackSW.config.collectBankData') %}
+        {% if config('KmhPaystackSW.config.collectBankData') %}
             {% block page_account_profile_paystack_bank_card %}
             <div class="card account-profile-bank mb-5">
                 <div class="card-body">
@@ -51,7 +51,7 @@
                                     {% endblock %}
 
                                     {% block page_account_profile_paystack_bank_form_bvn %}
-                                        {% if config('KommandhubPaystackSW.config.showBvnField') %}
+                                        {% if config('KmhPaystackSW.config.showBvnField') %}
                                             <div class="form-group col-12">
                                                 <label class="form-label" for="bvn">
                                                     {{ 'kmh-paystack.bvnLabel'|trans|sw_sanitize }}
@@ -62,7 +62,7 @@
                                                     name="bvn"
                                                     value="{{ customFields.kmh_paystack_bvn }}"
                                                     placeholder="{{ 'kmh-paystack.bvnPlaceholder'|trans|sw_sanitize }}"
-                                                    {% if config('KommandhubPaystackSW.config.requireBvn') %}required{% endif %}>
+                                                    {% if config('KmhPaystackSW.config.requireBvn') %}required{% endif %}>
                                                 <div class="invalid-feedback"></div>
                                                 <div class="valid-feedback"></div>
                                             </div>

@@ -49,7 +49,7 @@
                  Shopware kernel. Covered by the @group kernel integration tests
                  in the full suite; excluded here so the no-kernel CI coverage
                  gate reflects code it can actually run. -->
-            <file>src/KommandhubPaystackSW.php</file>
+            <file>src/KmhPaystackSW.php</file>
         </exclude>
     </source>
 

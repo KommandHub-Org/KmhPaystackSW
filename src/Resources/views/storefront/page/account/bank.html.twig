@@ -1,6 +1,6 @@
 {% block page_account_overview_paystack_bank_details %}
     {% block page_account_overview_paystack_bank_details_visibility %}
-        {% if config('KommandhubPaystackSW.config.collectBankData') %}
+        {% if config('KmhPaystackSW.config.collectBankData') %}
             {% block page_account_overview_paystack_bank_details_wrapper %}
             <div class="row js-account-overview-bank_details">
                 {% block page_account_overview_paystack_bank_details_inner %}
@@ -40,7 +40,7 @@
                                             {% endblock %}
 
                                             {% block page_account_overview_paystack_bank_details_bvn %}
-                                                {% if config('KommandhubPaystackSW.config.showBvnField') %}
+                                                {% if config('KmhPaystackSW.config.showBvnField') %}
                                                     <p>
                                                         <strong>{{ 'kmh-paystack.bvnLabel'|trans|sw_sanitize }}:</strong><br>
                                                         {{ customFields.kmh_paystack_bvn|default('–') }}

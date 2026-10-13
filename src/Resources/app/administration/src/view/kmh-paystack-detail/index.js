@@ -313,7 +313,7 @@ Shopware.Component.register('kmh-paystack-detail', {
          * @returns {Boolean}
          */
         refundEnabled() {
-            return this.config['KommandhubPaystackSW.config.refundEnabled'] !== false;
+            return this.config['KmhPaystackSW.config.refundEnabled'] !== false;
         },
         /**
          * Returns the minimum refund amount for Paystack (in minor units).
@@ -321,7 +321,7 @@ Shopware.Component.register('kmh-paystack-detail', {
          * @returns {Number}
          */
         minPaystackRefundAmount() {
-            return this.config['KommandhubPaystackSW.config.minimumRefundAmount'] ?? 50;
+            return this.config['KmhPaystackSW.config.minimumRefundAmount'] ?? 50;
         },
         /**
          * Returns the minimum refund amount in major units.
@@ -373,7 +373,7 @@ Shopware.Component.register('kmh-paystack-detail', {
          */
         async loadConfig(salesChannelId) {
             this.config = await this.systemConfigApiService.getValues(
-                'KommandhubPaystackSW.config',
+                'KmhPaystackSW.config',
                 salesChannelId
             );
         },

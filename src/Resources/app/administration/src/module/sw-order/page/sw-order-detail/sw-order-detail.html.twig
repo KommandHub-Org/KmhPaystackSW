@@ -4,7 +4,7 @@
         <sw-tabs-item
                 v-if="!isLoading && isPaystackPayment"
                 class="sw-order-detail__tabs-tab-paystack"
-                :route="{ name: 'kommandhub.paystack.detail', params: { id: $route.params.id } }"
+                :route="{ name: 'kmh.paystack.detail', params: { id: $route.params.id } }"
                 :title="$t('sw-order.detail.tabPaystack')"
         >
             {% block sw_order_detail_content_tabs_paystack_label %}

@@ -294,7 +294,7 @@ a small [`Dockerfile`](Dockerfile):
   runs `shopware-cli --version` so a broken install fails the image build rather
   than the first `make validate-plugin`. Pin it for a reproducible build by
   passing `--build-arg SHOPWARE_CLI_IMAGE=shopware/shopware-cli:bin@sha256:<digest>`.
-- **Container**: `kommandhub-paystack-plugin`
+- **Container**: `kmh-paystack-plugin`
 - **PHP**: 8.3 (`XDEBUG_ENABLED` toggle available)
 - **Persistent volume**: `database` (MySQL data)
 
