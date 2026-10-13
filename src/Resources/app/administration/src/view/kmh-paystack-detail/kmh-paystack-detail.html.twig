@@ -1,83 +1,83 @@
 {% block sw_order_document_card %}
-    {% block kommandhub_paystack_detail_card %}
+    {% block kmh_paystack_detail_card %}
     <mt-card
             v-if="order"
             position-identifier="sw-order-document-card"
-            class="kommandhub-paystack-detail-card"
+            class="kmh-paystack-detail-card"
     >
-        {% block kommandhub_paystack_detail_card_banner %}
-            {% block kommandhub_paystack_detail_card_banner_wrapper %}
+        {% block kmh_paystack_detail_card_banner %}
+            {% block kmh_paystack_detail_card_banner_wrapper %}
             <div
                     v-if="paystackIcon"
-                    class="kommandhub-paystack-detail-card__banner"
+                    class="kmh-paystack-detail-card__banner"
             >
-                {% block kommandhub_paystack_detail_card_banner_icon %}
+                {% block kmh_paystack_detail_card_banner_icon %}
                 <img
                         :src="paystackIcon"
-                        class="kommandhub-paystack-detail-card__icon"
+                        class="kmh-paystack-detail-card__icon"
                         alt="Paystack logo"
                 >
                 {% endblock %}
 
-                {% block kommandhub_paystack_detail_card_banner_title %}
-                <h3 class="kommandhub-paystack-detail-card__header">
-                    {{ $t('kommandhub-paystack-detail.header') }}
+                {% block kmh_paystack_detail_card_banner_title %}
+                <h3 class="kmh-paystack-detail-card__header">
+                    {{ $t('kmh-paystack-detail.header') }}
                 </h3>
                 {% endblock %}
             </div>
             {% endblock %}
         {% endblock %}
 
-        {% block kommandhub_paystack_detail_card_grid %}
+        {% block kmh_paystack_detail_card_grid %}
             <template #grid>
-                {% block kommandhub_paystack_detail_content %}
-                {% block kommandhub_paystack_detail_content_transaction_grid %}
+                {% block kmh_paystack_detail_content %}
+                {% block kmh_paystack_detail_content_transaction_grid %}
                 <sw-data-grid
                         v-if="paystackTransaction"
                         :data-source="paystackTransactionData"
                         :columns="paystackTransactionColumns"
                         :show-selection="false"
                         :show-actions="true"
-                        class="kommandhub-paystack-detail-grid"
+                        class="kmh-paystack-detail-grid"
                 >
-                    {% block kommandhub_paystack_detail_grid_column_amount %}
+                    {% block kmh_paystack_detail_grid_column_amount %}
                     <template #column-amount="{ item }">
                         {{ currencyFilter(item.amount, item.currency) }}
                     </template>
                     {% endblock %}
 
-                    {% block kommandhub_paystack_detail_grid_column_reference %}
+                    {% block kmh_paystack_detail_grid_column_reference %}
                     <template #column-reference="{ item }">
                         {{ item.reference }}
                     </template>
                     {% endblock %}
 
-                    {% block kommandhub_paystack_detail_grid_column_transaction_id %}
+                    {% block kmh_paystack_detail_grid_column_transaction_id %}
                     <template #column-transactionId="{ item }">
                         {{ item.transactionId }}
                     </template>
                     {% endblock %}
 
-                    {% block kommandhub_paystack_detail_grid_actions %}
+                    {% block kmh_paystack_detail_grid_actions %}
                     <template #actions="{ item }">
-                        {% block kommandhub_paystack_detail_grid_actions_refund %}
+                        {% block kmh_paystack_detail_grid_actions_refund %}
                         <sw-context-menu-item
                                 v-if="canRefund"
                                 @click="onOpenRefundModal(item)"
                         >
-                            {{ $t('kommandhub-paystack-detail.grid.refund') }}
+                            {{ $t('kmh-paystack-detail.grid.refund') }}
                         </sw-context-menu-item>
                         {% endblock %}
                     </template>
                     {% endblock %}
 
-                    {% block kommandhub_paystack_detail_grid_column_fee %}
+                    {% block kmh_paystack_detail_grid_column_fee %}
                     <template #column-fee="{ item }">
                         {{ currencyFilter(item.fee, item.currency) }}
                     </template>
                     {% endblock %}
 
-                    {% block kommandhub_paystack_detail_grid_column_state %}
+                    {% block kmh_paystack_detail_grid_column_state %}
                     <template #column-state="{ item }">
                         <sw-label
                             v-if="item.state && item.state.translated"
@@ -89,7 +89,7 @@
                     </template>
                     {% endblock %}
 
-                    {% block kommandhub_paystack_detail_grid_column_verified_at %}
+                    {% block kmh_paystack_detail_grid_column_verified_at %}
                     <template #column-verifiedAt="{ item }">
                         <sw-time-ago
                                 :date="item.verifiedAt"
@@ -100,14 +100,14 @@
                 </sw-data-grid>
                 {% endblock %}
 
-                {% block kommandhub_paystack_detail_empty_state %}
+                {% block kmh_paystack_detail_empty_state %}
                 <mt-empty-state
                         v-else
-                        :headline="$t('kommandhub-paystack-detail.emptyState.title')"
-                        :description="$t('kommandhub-paystack-detail.emptyState.subline')"
+                        :headline="$t('kmh-paystack-detail.emptyState.title')"
+                        :description="$t('kmh-paystack-detail.emptyState.subline')"
                         icon="regular-credit-card"
                         centered
-                        class="kommandhub-paystack-detail-empty-state"
+                        class="kmh-paystack-detail-empty-state"
                 />
                 {% endblock %}
                 {% endblock %}
@@ -116,30 +116,30 @@
     </mt-card>
     {% endblock %}
 
-    {% block kommandhub_paystack_detail_captures_card %}
+    {% block kmh_paystack_detail_captures_card %}
     <mt-card
             v-if="order && captures.length"
-            position-identifier="kommandhub-paystack-detail-captures-card"
-            class="kommandhub-paystack-detail-captures-card"
+            position-identifier="kmh-paystack-detail-captures-card"
+            class="kmh-paystack-detail-captures-card"
     >
         <template #default>
-            {% block kommandhub_paystack_detail_captures_grid %}
-            {% block kommandhub_paystack_detail_captures_grid_title %}
-            <h3 class="kommandhub-paystack-detail-captures-card__title">
-                {{ $t('kommandhub-paystack-detail.grid.captures') }}
+            {% block kmh_paystack_detail_captures_grid %}
+            {% block kmh_paystack_detail_captures_grid_title %}
+            <h3 class="kmh-paystack-detail-captures-card__title">
+                {{ $t('kmh-paystack-detail.grid.captures') }}
             </h3>
             {% endblock %}
 
-            {% block kommandhub_paystack_detail_captures_grid_table %}
+            {% block kmh_paystack_detail_captures_grid_table %}
             <sw-data-grid
                     :data-source="captures"
                     :columns="paystackCaptureColumns"
                     :show-selection="false"
                     :show-actions="true"
-                    class="kommandhub-paystack-detail-captures-grid"
+                    class="kmh-paystack-detail-captures-grid"
             >
                 <template #column-amount="{ item }">
-                    {% block kommandhub_paystack_detail_captures_grid_column_amount %}
+                    {% block kmh_paystack_detail_captures_grid_column_amount %}
                     <template v-if="paystackTransaction && paystackTransaction.customFields">
                         {{ currencyFilter(item.amount.totalPrice, paystackTransaction.customFields.paystack_currency) }}
                     </template>
@@ -147,7 +147,7 @@
                 </template>
 
                 <template #column-state="{ item }">
-                    {% block kommandhub_paystack_detail_captures_grid_column_state %}
+                    {% block kmh_paystack_detail_captures_grid_column_state %}
                     <sw-label
                             v-if="item.stateMachineState"
                             variant="neutral"
@@ -159,7 +159,7 @@
                 </template>
 
                 <template #column-createdAt="{ item }">
-                    {% block kommandhub_paystack_detail_captures_grid_column_created_at %}
+                    {% block kmh_paystack_detail_captures_grid_column_created_at %}
                     <sw-time-ago
                             :date="item.createdAt"
                             :date-time-format="{ month: '2-digit', day: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' }"
@@ -168,12 +168,12 @@
                 </template>
 
                 <template #actions="{ item }">
-                    {% block kommandhub_paystack_detail_captures_grid_actions %}
+                    {% block kmh_paystack_detail_captures_grid_actions %}
                     <sw-context-menu-item
                             v-if="item.refunds && item.refunds.length"
                             @click="onOpenRefundsListModal(item)"
                     >
-                        {{ $t('kommandhub-paystack-detail.grid.refunds') }}
+                        {{ $t('kmh-paystack-detail.grid.refunds') }}
                     </sw-context-menu-item>
                     {% endblock %}
                 </template>
@@ -184,29 +184,29 @@
     </mt-card>
     {% endblock %}
 
-    {% block kommandhub_paystack_detail_refunds_list_modal %}
+    {% block kmh_paystack_detail_refunds_list_modal %}
     <sw-modal
             v-if="order && showRefundsListModal"
-            :title="$t('kommandhub-paystack-detail.refund.listModalTitle')"
+            :title="$t('kmh-paystack-detail.refund.listModalTitle')"
             @modal-close="onCloseRefundsListModal"
     >
-        {% block kommandhub_paystack_detail_refunds_list_grid %}
-        {% block kommandhub_paystack_detail_refunds_list_grid_table %}
+        {% block kmh_paystack_detail_refunds_list_grid %}
+        {% block kmh_paystack_detail_refunds_list_grid_table %}
         <sw-data-grid
                 :data-source="paystackRefunds"
                 :columns="paystackRefundColumns"
                 :show-selection="false"
                 :show-actions="false"
-                class="kommandhub-paystack-detail-refunds-grid"
+                class="kmh-paystack-detail-refunds-grid"
         >
             <template #column-amount="{ item }">
-                {% block kommandhub_paystack_detail_refunds_list_grid_column_amount %}
+                {% block kmh_paystack_detail_refunds_list_grid_column_amount %}
                 {{ currencyFilter(item.amount.totalPrice, paystackTransaction.customFields.paystack_currency) }}
                 {% endblock %}
             </template>
 
             <template #column-state="{ item }">
-                {% block kommandhub_paystack_detail_refunds_list_grid_column_state %}
+                {% block kmh_paystack_detail_refunds_list_grid_column_state %}
                 <sw-label
                         v-if="item.stateMachineState"
                         variant="neutral"
@@ -218,7 +218,7 @@
             </template>
 
             <template #column-createdAt="{ item }">
-                {% block kommandhub_paystack_detail_refunds_list_grid_column_created_at %}
+                {% block kmh_paystack_detail_refunds_list_grid_column_created_at %}
                 <sw-time-ago
                         :date="item.createdAt"
                         :date-time-format="{ month: '2-digit', day: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' }"
@@ -229,7 +229,7 @@
         {% endblock %}
         {% endblock %}
 
-        {% block kommandhub_paystack_detail_refunds_list_modal_footer %}
+        {% block kmh_paystack_detail_refunds_list_modal_footer %}
         <template #modal-footer>
             <mt-button
                     variant="secondary"
@@ -243,24 +243,24 @@
     </sw-modal>
     {% endblock %}
 
-    {% block kommandhub_paystack_detail_refund_modal %}
+    {% block kmh_paystack_detail_refund_modal %}
     <sw-modal
             v-if="order && showRefundModal"
-            :title="$t('kommandhub-paystack-detail.refund.modalTitle')"
+            :title="$t('kmh-paystack-detail.refund.modalTitle')"
             @modal-close="onCloseRefundModal"
     >
-        {% block kommandhub_paystack_detail_refund_modal_content %}
-        {% block kommandhub_paystack_detail_refund_modal_form %}
+        {% block kmh_paystack_detail_refund_modal_content %}
+        {% block kmh_paystack_detail_refund_modal_form %}
         <sw-container
                 columns="1fr 1fr"
                 gap="16px"
         >
-            {% block kommandhub_paystack_detail_refund_modal_amount_field %}
+            {% block kmh_paystack_detail_refund_modal_amount_field %}
             <mt-number-field
                     v-model="refundAmount"
-                    :label="$t('kommandhub-paystack-detail.refund.amountLabel')"
-                    :placeholder="$t('kommandhub-paystack-detail.refund.amountPlaceholder')"
-                    :help-text="$t('kommandhub-paystack-detail.refund.amountHelpText')"
+                    :label="$t('kmh-paystack-detail.refund.amountLabel')"
+                    :placeholder="$t('kmh-paystack-detail.refund.amountPlaceholder')"
+                    :help-text="$t('kmh-paystack-detail.refund.amountHelpText')"
                     number-type="float"
                     :digits="refundAmountDigits"
                     :min="minRefundableAmount"
@@ -269,34 +269,34 @@
             />
             {% endblock %}
 
-            {% block kommandhub_paystack_detail_refund_modal_currency_field %}
+            {% block kmh_paystack_detail_refund_modal_currency_field %}
             <mt-text-field
                     v-model="refundCurrency"
-                    :label="$t('kommandhub-paystack-detail.refund.currencyLabel')"
+                    :label="$t('kmh-paystack-detail.refund.currencyLabel')"
                     disabled
             />
             {% endblock %}
         </sw-container>
 
-        {% block kommandhub_paystack_detail_refund_modal_customer_note_field %}
+        {% block kmh_paystack_detail_refund_modal_customer_note_field %}
         <mt-text-field
                 v-model="customerNote"
-                :label="$t('kommandhub-paystack-detail.refund.customerNoteLabel')"
-                :placeholder="$t('kommandhub-paystack-detail.refund.customerNotePlaceholder')"
+                :label="$t('kmh-paystack-detail.refund.customerNoteLabel')"
+                :placeholder="$t('kmh-paystack-detail.refund.customerNotePlaceholder')"
         />
         {% endblock %}
 
-        {% block kommandhub_paystack_detail_refund_modal_merchant_note_field %}
+        {% block kmh_paystack_detail_refund_modal_merchant_note_field %}
         <mt-text-field
                 v-model="merchantNote"
-                :label="$t('kommandhub-paystack-detail.refund.merchantNoteLabel')"
-                :placeholder="$t('kommandhub-paystack-detail.refund.merchantNotePlaceholder')"
+                :label="$t('kmh-paystack-detail.refund.merchantNoteLabel')"
+                :placeholder="$t('kmh-paystack-detail.refund.merchantNotePlaceholder')"
         />
         {% endblock %}
         {% endblock %}
         {% endblock %}
 
-        {% block kommandhub_paystack_detail_refund_modal_footer %}
+        {% block kmh_paystack_detail_refund_modal_footer %}
         <template #modal-footer>
             <mt-button
                     variant="secondary"
@@ -314,7 +314,7 @@
                     @process-finish="onRefundFinished"
                     @click="onConfirmRefund"
             >
-                {{ $t('kommandhub-paystack-detail.refund.confirmButton') }}
+                {{ $t('kmh-paystack-detail.refund.confirmButton') }}
             </sw-button-process>
         </template>
         {% endblock %}

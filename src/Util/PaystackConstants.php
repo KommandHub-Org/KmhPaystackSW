@@ -10,6 +10,7 @@ namespace Kommandhub\PaystackSW\Util;
 class PaystackConstants
 {
     public const MINIMUM_REFUND_AMOUNT = 50;
+    public const METADATA_ORDER_TRANSACTION_ID = 'order_transaction_id';
     public const FIELD_REFERENCE = 'paystack_reference';
     public const FIELD_TRANSACTION_ID = 'paystack_transaction_id';
     public const FIELD_PAYMENT_TYPE = 'paystack_payment_type';

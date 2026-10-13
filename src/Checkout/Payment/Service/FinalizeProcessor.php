@@ -7,6 +7,7 @@ namespace Kommandhub\PaystackSW\Checkout\Payment\Service;
 use Kommandhub\PaystackSW\Checkout\Payment\Enum\PaystackTransactionStatus;
 use Kommandhub\PaystackSW\Exception\PaymentException;
 use Kommandhub\PaystackSW\Logging\ConfigurableLogger;
+use Kommandhub\PaystackSW\Util\PaystackConstants;
 use Shopware\Core\Checkout\Order\Aggregate\OrderTransaction\OrderTransactionEntity;
 use Shopware\Core\Checkout\Order\OrderEntity;
 use Shopware\Core\Checkout\Order\Aggregate\OrderTransaction\OrderTransactionStateHandler;
@@ -56,7 +57,7 @@ readonly class FinalizeProcessor
         // loaded it) to avoid re-hydrating the full association graph.
         $orderTransaction ??= $this->orderTransactionService->readOneById($transactionId, $context);
 
-        $reference = $this->extractReference($request, $transactionId);
+        [$reference, $returnedWithoutReference] = $this->resolveReference($request, $orderTransaction, $transactionId);
 
         if ($this->isAlreadyProcessed($orderTransaction)) {
             $this->logger->info('[Paystack] Payment already processed.', [
@@ -75,6 +76,20 @@ readonly class FinalizeProcessor
         );
 
         if (!$this->isSuccessfulVerification($verification)) {
+            // A redirect that carries no reference is the customer pressing
+            // cancel/back on Paystack's page; Paystack reports that attempt as
+            // abandoned. Treat it as a cancellation (the order stays retryable).
+            // Pending-type statuses are left open, and declined/failed payments
+            // were already rejected by the verification step above.
+            if ($returnedWithoutReference
+                && $this->getVerificationStatus($verification) === PaystackTransactionStatus::ABANDONED->value
+            ) {
+                throw PaymentException::customerCanceled(
+                    $transactionId,
+                    'The payment was abandoned on the Paystack page.'
+                );
+            }
+
             return;
         }
 
@@ -107,32 +122,51 @@ readonly class FinalizeProcessor
     }
 
     /**
-     * Extracts the Paystack reference from the request.
+     * Resolves the Paystack reference to verify.
      *
-     * @param Request $request
-     * @param string $transactionId
+     * Paystack appends `reference` when the customer pays, but the return after
+     * pressing cancel/back (and after some failures) arrives without one. In that
+     * case the reference stored when the payment was initialized is used, so the
+     * outcome is decided by Paystack's real status rather than guessed.
      *
-     * @return string
+     * @return array{0: string, 1: bool} The reference, and whether the redirect carried none.
      *
-     * @throws PaymentException
+     * @throws PaymentException When neither the request nor the transaction has a reference.
      */
-    private function extractReference(Request $request, string $transactionId): string
-    {
+    private function resolveReference(
+        Request $request,
+        OrderTransactionEntity $orderTransaction,
+        string $transactionId
+    ): array {
         $reference = $request->query->getString('reference');
 
-        if ($reference === '') {
-            $this->logger->error('[Paystack] Missing transaction reference.', [
-                'transaction_id' => $transactionId,
-                'query' => $request->query->all(),
-            ]);
-
-            throw PaymentException::customerCanceled(
-                $transactionId,
-                'Payment reference is missing from request.'
-            );
+        if ($reference !== '') {
+            return [$reference, false];
         }
 
-        return $reference;
+        $customFields = $orderTransaction->getCustomFields() ?? [];
+        $stored = $customFields[PaystackConstants::FIELD_REFERENCE] ?? '';
+
+        if (is_string($stored) && $stored !== '') {
+            $this->logger->info('[Paystack] Redirect carried no reference; verifying the stored one.', [
+                ConfigurableLogger::CONTEXT_SALES_CHANNEL_ID => $orderTransaction->getOrder()?->getSalesChannelId(),
+                'transaction_id' => $transactionId,
+                'reference' => $stored,
+            ]);
+
+            return [$stored, true];
+        }
+
+        $this->logger->error('[Paystack] Missing transaction reference.', [
+            ConfigurableLogger::CONTEXT_SALES_CHANNEL_ID => $orderTransaction->getOrder()?->getSalesChannelId(),
+            'transaction_id' => $transactionId,
+            'query' => $request->query->all(),
+        ]);
+
+        throw PaymentException::customerCanceled(
+            $transactionId,
+            'Payment reference is missing from request.'
+        );
     }
 
     /**

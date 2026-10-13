@@ -1,6 +1,6 @@
 {% block page_account_overview_paystack_bank_details %}
     {% block page_account_overview_paystack_bank_details_visibility %}
-        {% if config('KommandhubPaystackSW.config.collectBankData') %}
+        {% if config('KmhPaystackSW.config.collectBankData') %}
             {% block page_account_overview_paystack_bank_details_wrapper %}
             <div class="row js-account-overview-bank_details">
                 {% block page_account_overview_paystack_bank_details_inner %}
@@ -11,7 +11,7 @@
                                 <div class="card-body">
                                     {% block page_account_overview_paystack_bank_details_title %}
                                         <h2 class="card-title">
-                                            {{ 'kommandhub-paystack.bankTitle'|trans|sw_sanitize }}
+                                            {{ 'kmh-paystack.bankTitle'|trans|sw_sanitize }}
                                         </h2>
                                     {% endblock %}
 
@@ -20,30 +20,30 @@
                                         <div class="bank-details-content">
                                             {% block page_account_overview_paystack_bank_details_bank_name %}
                                             <p>
-                                                <strong>{{ 'kommandhub-paystack.bankNameLabel'|trans|sw_sanitize }}:</strong><br>
-                                                {{ customFields.kommandhub_paystack_bank_name|default('–') }}
+                                                <strong>{{ 'kmh-paystack.bankNameLabel'|trans|sw_sanitize }}:</strong><br>
+                                                {{ customFields.kmh_paystack_bank_name|default('–') }}
                                             </p>
                                             {% endblock %}
 
                                             {% block page_account_overview_paystack_bank_details_account_number %}
                                             <p>
-                                                <strong>{{ 'kommandhub-paystack.accountNumberLabel'|trans|sw_sanitize }}:</strong><br>
-                                                {{ customFields.kommandhub_paystack_account_number|default('–') }}
+                                                <strong>{{ 'kmh-paystack.accountNumberLabel'|trans|sw_sanitize }}:</strong><br>
+                                                {{ customFields.kmh_paystack_account_number|default('–') }}
                                             </p>
                                             {% endblock %}
 
                                             {% block page_account_overview_paystack_bank_details_account_name %}
                                             <p>
-                                                <strong>{{ 'kommandhub-paystack.accountNameLabel'|trans|sw_sanitize }}:</strong><br>
-                                                {{ customFields.kommandhub_paystack_account_name|default('–') }}
+                                                <strong>{{ 'kmh-paystack.accountNameLabel'|trans|sw_sanitize }}:</strong><br>
+                                                {{ customFields.kmh_paystack_account_name|default('–') }}
                                             </p>
                                             {% endblock %}
 
                                             {% block page_account_overview_paystack_bank_details_bvn %}
-                                                {% if config('KommandhubPaystackSW.config.showBvnField') %}
+                                                {% if config('KmhPaystackSW.config.showBvnField') %}
                                                     <p>
-                                                        <strong>{{ 'kommandhub-paystack.bvnLabel'|trans|sw_sanitize }}:</strong><br>
-                                                        {{ customFields.kommandhub_paystack_bvn|default('–') }}
+                                                        <strong>{{ 'kmh-paystack.bvnLabel'|trans|sw_sanitize }}:</strong><br>
+                                                        {{ customFields.kmh_paystack_bvn|default('–') }}
                                                     </p>
                                                 {% endif %}
                                             {% endblock %}

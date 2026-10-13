@@ -149,7 +149,7 @@ final readonly class WebhookSubscriber
         $criteria->addAssociation('transactionCapture.transaction.order.currency');
         $criteria->setLimit(1);
 
-        $refund = $this->orderTransactionCaptureRefundRepository->search($criteria, $context)->first();
+        $refund = $this->orderTransactionCaptureRefundRepository->search($criteria, $context)->getEntities()->first();
 
         return $refund instanceof OrderTransactionCaptureRefundEntity ? $refund : null;
     }

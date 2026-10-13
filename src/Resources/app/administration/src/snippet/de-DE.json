@@ -1,5 +1,5 @@
 {
-  "kommandhub-paystack-detail": {
+  "kmh-paystack-detail": {
     "title": "Paystack",
     "summary": {
       "chargedAmount": "Abgerechneter Betrag",

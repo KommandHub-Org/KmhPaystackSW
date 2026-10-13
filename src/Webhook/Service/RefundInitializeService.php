@@ -241,7 +241,7 @@ readonly class RefundInitializeService
         $criteria->addAssociation('captures.refunds.stateMachineState');
 
         /** @var OrderTransactionEntity|null $transaction */
-        $transaction = $this->orderTransactionRepository->search($criteria, $context)->first();
+        $transaction = $this->orderTransactionRepository->search($criteria, $context)->getEntities()->first();
 
         return $transaction;
     }
@@ -299,6 +299,7 @@ readonly class RefundInitializeService
         /** @var OrderTransactionCaptureEntity|null $capture */
         $capture = $this->orderTransactionCaptureRepository
             ->search(new Criteria([$captureId]), $context)
+            ->getEntities()
             ->first();
 
         return $capture;

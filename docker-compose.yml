@@ -5,23 +5,23 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    image: 'kommandhub-paystack-plugin:6.7.8.0'
-    container_name: kommandhub-paystack-plugin
+    image: 'kmh-paystack-plugin:6.7.8.0'
+    container_name: kmh-paystack-plugin
     environment:
       - 'XDEBUG_ENABLED=0'
       - 'PHP_VERSION=8.3'
     volumes:
       # ----------------------------------------------------------------------------------------------------------------------------------
       # PLUGINS
-      - "./:/var/www/html/custom/static-plugins/KommandhubPaystackSW"
+      - "./:/var/www/html/custom/static-plugins/KmhPaystackSW"
       - "database:/var/lib/mysql"
       - "./Makefile:/var/www/html/Makefile"
       # - ".env.test:/var/www/html/.env.test"
       # ----------------------------------------------------------------------------------------------------------------------------------
       # EXCLUDE
-      - "/var/www/html/custom/static-plugins/KommandhubPaystackSW/.git/"
-      - "/var/www/html/custom/static-plugins/KommandhubPaystackSW/node_modules/"
-      - "/var/www/html/custom/static-plugins/KommandhubPaystackSW/vendor/"
+      - "/var/www/html/custom/static-plugins/KmhPaystackSW/.git/"
+      - "/var/www/html/custom/static-plugins/KmhPaystackSW/node_modules/"
+      - "/var/www/html/custom/static-plugins/KmhPaystackSW/vendor/"
       # ----------------------------------------------------------------------------------------------------------------------------------
 
 volumes:

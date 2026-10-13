@@ -1,13 +1,13 @@
 {
-  "base": "/bundles/kommandhubpaystacksw/administration/",
+  "base": "/bundles/kmhpaystacksw/administration/",
   "entryPoints": {
-    "kommandhub-paystack-s-w": {
+    "kmh-paystack-s-w": {
       "css": [
-        "/bundles/kommandhubpaystacksw/administration/assets/kommandhub-paystack-s-w-Bqi7SZ4U.css"
+        "/bundles/kmhpaystacksw/administration/assets/kmh-paystack-s-w-2s7KRFWP.css"
       ],
       "dynamic": [],
       "js": [
-        "/bundles/kommandhubpaystacksw/administration/assets/kommandhub-paystack-s-w-CbnlwT5p.js"
+        "/bundles/kmhpaystacksw/administration/assets/kmh-paystack-s-w-CyM3CYPr.js"
       ],
       "legacy": false,
       "preload": []

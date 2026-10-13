@@ -1,18 +1,18 @@
 {
   "main.js": {
-    "file": "assets/kommandhub-paystack-s-w-CbnlwT5p.js",
-    "name": "kommandhub-paystack-s-w",
+    "file": "assets/kmh-paystack-s-w-CyM3CYPr.js",
+    "name": "kmh-paystack-s-w",
     "src": "main.js",
     "isEntry": true,
     "css": [
-      "assets/kommandhub-paystack-s-w-Bqi7SZ4U.css"
+      "assets/kmh-paystack-s-w-2s7KRFWP.css"
     ],
     "assets": [
       "assets/icon-DCLC8I4X.png"
     ]
   },
-  "view/kommandhub-paystack-detail/icon.png": {
+  "view/kmh-paystack-detail/icon.png": {
     "file": "assets/icon-DCLC8I4X.png",
-    "src": "view/kommandhub-paystack-detail/icon.png"
+    "src": "view/kmh-paystack-detail/icon.png"
   }
 }

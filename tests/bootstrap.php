@@ -8,5 +8,4 @@ if (getenv('CI') === 'true') {
 }
 
 // Otherwise (local dev) → use Shopware bootstrap
-require __DIR__ . '/TestBootstrapper.php';
 require __DIR__ . '/TestBootstrap.php';

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Kommandhub\PaystackSW\Tests\Unit;
 
-use Kommandhub\PaystackSW\KommandhubPaystackSW;
+use Kommandhub\PaystackSW\KmhPaystackSW;
 use Kommandhub\PaystackSW\Installer\CustomFieldsInstaller;
 use Kommandhub\PaystackSW\Installer\PaymentMethodInstaller;
 use Kommandhub\PaystackSW\Checkout\Payment\Handler\PaystackPaymentHandler;
@@ -21,18 +21,18 @@ use Shopware\Core\Framework\DataAbstractionLayer\EntityRepository;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\IdSearchResult;
 use Shopware\Core\Framework\Plugin\Util\PluginIdProvider;
 
-#[CoversClass(KommandhubPaystackSW::class)]
+#[CoversClass(KmhPaystackSW::class)]
 #[UsesClass(CustomFieldsInstaller::class)]
 #[UsesClass(PaymentMethodInstaller::class)]
 #[UsesClass(PaystackPaymentHandler::class)]
-class KommandhubPaystackSWTest extends TestCase
+class KmhPaystackSWTest extends TestCase
 {
-    private KommandhubPaystackSW $plugin;
+    private KmhPaystackSW $plugin;
     private ContainerInterface $container;
 
     protected function setUp(): void
     {
-        $this->plugin = new KommandhubPaystackSW(true, '');
+        $this->plugin = new KmhPaystackSW(true, '');
         $this->container = $this->createMock(ContainerInterface::class);
         $this->plugin->setContainer($this->container);
     }
@@ -53,6 +53,7 @@ class KommandhubPaystackSWTest extends TestCase
 
         $this->container->method('get')->willReturnMap([
             ['payment_method.repository', $repository],
+            ['sales_channel.repository', $this->createMock(EntityRepository::class)],
             [PluginIdProvider::class, $this->createMock(PluginIdProvider::class)],
             ['custom_field_set.repository', $customFieldSetRepository],
             ['custom_field_set_relation.repository', $customFieldSetRelationRepository],
@@ -76,6 +77,7 @@ class KommandhubPaystackSWTest extends TestCase
         $repository = $this->createMock(EntityRepository::class);
         $this->container->method('get')->willReturnMap([
             ['payment_method.repository', $repository],
+            ['sales_channel.repository', $this->createMock(EntityRepository::class)],
             [PluginIdProvider::class, $this->createMock(PluginIdProvider::class)],
         ]);
 
@@ -98,6 +100,7 @@ class KommandhubPaystackSWTest extends TestCase
         $repository = $this->createMock(EntityRepository::class);
         $this->container->method('get')->willReturnMap([
             ['payment_method.repository', $repository],
+            ['sales_channel.repository', $this->createMock(EntityRepository::class)],
             [PluginIdProvider::class, $this->createMock(PluginIdProvider::class)],
         ]);
 
@@ -124,6 +127,7 @@ class KommandhubPaystackSWTest extends TestCase
 
         $this->container->method('get')->willReturnMap([
             ['payment_method.repository', $repository],
+            ['sales_channel.repository', $this->createMock(EntityRepository::class)],
             [PluginIdProvider::class, $this->createMock(PluginIdProvider::class)],
             ['custom_field_set.repository', $customFieldSetRepository],
             ['custom_field_set_relation.repository', $customFieldSetRelationRepository],
@@ -152,6 +156,7 @@ class KommandhubPaystackSWTest extends TestCase
 
         $this->container->method('get')->willReturnMap([
             ['payment_method.repository', $repository],
+            ['sales_channel.repository', $this->createMock(EntityRepository::class)],
             [PluginIdProvider::class, $this->createMock(PluginIdProvider::class)],
             ['custom_field_set.repository', $customFieldSetRepository],
             ['custom_field_set_relation.repository', $customFieldSetRelationRepository],

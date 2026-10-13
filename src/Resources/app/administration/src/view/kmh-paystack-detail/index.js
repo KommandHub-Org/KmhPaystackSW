@@ -1,5 +1,5 @@
-import template from './kommandhub-paystack-detail.html.twig';
-import './kommandhub-paystack-detail.scss';
+import template from './kmh-paystack-detail.html.twig';
+import './kmh-paystack-detail.scss';
 import icon from './icon.png';
 import { PAYSTACK_HANDLER_IDENTIFIER, isAbortError } from '../../util/paystack';
 import {
@@ -11,7 +11,7 @@ import {
 const { Store, Mixin } = Shopware;
 const { Criteria } = Shopware.Data;
 
-Shopware.Component.register('kommandhub-paystack-detail', {
+Shopware.Component.register('kmh-paystack-detail', {
     template,
 
     mixins: [
@@ -21,7 +21,7 @@ Shopware.Component.register('kommandhub-paystack-detail', {
     /** @private */
     metaInfo() {
         return {
-            title: this.$t('kommandhub-paystack-detail.title'),
+            title: this.$t('kmh-paystack-detail.title'),
         };
     },
 
@@ -151,28 +151,28 @@ Shopware.Component.register('kommandhub-paystack-detail', {
             return [
                 {
                     property: 'amount',
-                    label: 'kommandhub-paystack-detail.summary.chargedAmount',
+                    label: 'kmh-paystack-detail.summary.chargedAmount',
                     primary: true,
                 },
                 {
                     property: 'reference',
-                    label: 'kommandhub-paystack-detail.grid.reference',
+                    label: 'kmh-paystack-detail.grid.reference',
                 },
                 {
                     property: 'transactionId',
-                    label: 'kommandhub-paystack-detail.grid.transactionId',
+                    label: 'kmh-paystack-detail.grid.transactionId',
                 },
                 {
                     property: 'fee',
-                    label: 'kommandhub-paystack-detail.grid.processingFee',
+                    label: 'kmh-paystack-detail.grid.processingFee',
                 },
                 {
                     property: 'state',
-                    label: 'kommandhub-paystack-detail.grid.state',
+                    label: 'kmh-paystack-detail.grid.state',
                 },
                 {
                     property: 'verifiedAt',
-                    label: 'kommandhub-paystack-detail.grid.verifiedAt',
+                    label: 'kmh-paystack-detail.grid.verifiedAt',
                 },
             ];
         },
@@ -186,20 +186,20 @@ Shopware.Component.register('kommandhub-paystack-detail', {
             return [
                 {
                     property: 'amount',
-                    label: 'kommandhub-paystack-detail.captures.grid.amount',
+                    label: 'kmh-paystack-detail.captures.grid.amount',
                     primary: true,
                 },
                 {
                     property: 'state',
-                    label: 'kommandhub-paystack-detail.captures.grid.state',
+                    label: 'kmh-paystack-detail.captures.grid.state',
                 },
                 {
                     property: 'externalReference',
-                    label: 'kommandhub-paystack-detail.captures.grid.externalReference',
+                    label: 'kmh-paystack-detail.captures.grid.externalReference',
                 },
                 {
                     property: 'createdAt',
-                    label: 'kommandhub-paystack-detail.captures.grid.createdAt',
+                    label: 'kmh-paystack-detail.captures.grid.createdAt',
                 },
             ];
         },
@@ -213,24 +213,24 @@ Shopware.Component.register('kommandhub-paystack-detail', {
             return [
                 {
                     property: 'amount',
-                    label: 'kommandhub-paystack-detail.refunds.grid.amount',
+                    label: 'kmh-paystack-detail.refunds.grid.amount',
                     primary: true,
                 },
                 {
                     property: 'state',
-                    label: 'kommandhub-paystack-detail.refunds.grid.state',
+                    label: 'kmh-paystack-detail.refunds.grid.state',
                 },
                 {
                     property: 'externalReference',
-                    label: 'kommandhub-paystack-detail.refunds.grid.externalReference',
+                    label: 'kmh-paystack-detail.refunds.grid.externalReference',
                 },
                 {
                     property: 'reason',
-                    label: 'kommandhub-paystack-detail.refunds.grid.reason',
+                    label: 'kmh-paystack-detail.refunds.grid.reason',
                 },
                 {
                     property: 'createdAt',
-                    label: 'kommandhub-paystack-detail.refunds.grid.createdAt',
+                    label: 'kmh-paystack-detail.refunds.grid.createdAt',
                 },
             ];
         },
@@ -313,7 +313,7 @@ Shopware.Component.register('kommandhub-paystack-detail', {
          * @returns {Boolean}
          */
         refundEnabled() {
-            return this.config['KommandhubPaystackSW.config.refundEnabled'] !== false;
+            return this.config['KmhPaystackSW.config.refundEnabled'] !== false;
         },
         /**
          * Returns the minimum refund amount for Paystack (in minor units).
@@ -321,7 +321,7 @@ Shopware.Component.register('kommandhub-paystack-detail', {
          * @returns {Number}
          */
         minPaystackRefundAmount() {
-            return this.config['KommandhubPaystackSW.config.minimumRefundAmount'] ?? 50;
+            return this.config['KmhPaystackSW.config.minimumRefundAmount'] ?? 50;
         },
         /**
          * Returns the minimum refund amount in major units.
@@ -373,7 +373,7 @@ Shopware.Component.register('kommandhub-paystack-detail', {
          */
         async loadConfig(salesChannelId) {
             this.config = await this.systemConfigApiService.getValues(
-                'KommandhubPaystackSW.config',
+                'KmhPaystackSW.config',
                 salesChannelId
             );
         },
@@ -509,7 +509,7 @@ Shopware.Component.register('kommandhub-paystack-detail', {
         onConfirmRefund() {
             if (this.refundAmount < this.minRefundableAmount) {
                 this.createNotificationError({
-                    message: this.$t('kommandhub-paystack-detail.refund.errorAmountTooLow', {
+                    message: this.$t('kmh-paystack-detail.refund.errorAmountTooLow', {
                         minAmount: this.currencyFilter(this.minRefundableAmount, this.refundCurrency),
                     }),
                 });
@@ -518,7 +518,7 @@ Shopware.Component.register('kommandhub-paystack-detail', {
 
             if (this.refundAmount > this.maxRefundableAmount) {
                 this.createNotificationError({
-                    message: this.$t('kommandhub-paystack-detail.refund.errorAmountTooHigh', {
+                    message: this.$t('kmh-paystack-detail.refund.errorAmountTooHigh', {
                         maxAmount: this.currencyFilter(this.maxRefundableAmount, this.refundCurrency),
                     }),
                 });

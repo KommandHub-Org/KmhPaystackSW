@@ -15,6 +15,7 @@ use Shopware\Core\Framework\Plugin\Context\InstallContext;
 use Shopware\Core\Framework\Plugin\Context\UninstallContext;
 use Shopware\Core\Framework\Plugin\Context\UpdateContext;
 use Shopware\Core\Framework\Plugin\Util\PluginIdProvider;
+use Shopware\Core\System\SalesChannel\SalesChannelCollection;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\Config\Loader\DelegatingLoader;
 use Symfony\Component\Config\Loader\LoaderResolver;
@@ -24,7 +25,7 @@ use Symfony\Component\DependencyInjection\Loader\GlobFileLoader;
 use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 
 /**
- * Main Shopware plugin class for Kommandhub Paystack integration.
+ * Main Shopware plugin class for Kmh Paystack integration.
  *
  * Responsibilities:
  * - Registers plugin services (via Symfony container)
@@ -32,7 +33,7 @@ use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
  * - Creates and maintains Paystack payment method
  * - Installs custom fields required for integration
  */
-class KommandhubPaystackSW extends Plugin
+class KmhPaystackSW extends Plugin
 {
     /**
      * Allow composer commands during plugin execution.
@@ -162,9 +163,13 @@ class KommandhubPaystackSW extends Plugin
         /** @var PluginIdProvider $pluginIdProvider */
         $pluginIdProvider = $this->container->get(PluginIdProvider::class);
 
+        /** @var EntityRepository<SalesChannelCollection> $salesChannelRepo */
+        $salesChannelRepo = $this->container->get('sales_channel.repository');
+
         return new PaymentMethodInstaller(
             $paymentMethodRepo,
-            $pluginIdProvider
+            $pluginIdProvider,
+            $salesChannelRepo
         );
     }
 

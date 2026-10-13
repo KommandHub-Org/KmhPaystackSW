@@ -1,3 +1,15 @@
+# 0.9.0-beta.3
+
+Dritte Vorabversion. Weiterhin für interne Entwicklung, QA und Sandbox-/
+Staging-Tests; noch nicht im Shopware Store eingereicht.
+
+**Hinweis zum Update: Das Plugin wurde umbenannt.** Der technische Name wurde von `KommandhubPaystackSW` in `KmhPaystackSW` geändert. Shopware behandelt es daher als anderes Plugin, und Installationen von `0.9.0-beta.1` / `0.9.0-beta.2` werden nicht direkt aktualisiert. Installieren Sie `KmhPaystackSW`, geben Sie Ihre Paystack-API-Schlüssel und Einstellungen erneut ein (sie liegen jetzt unter der Domain `KmhPaystackSW.config.*`) und entfernen Sie anschließend das alte Plugin. Auch das Zusatzfeld-Set und die Bankfelder wurden umbenannt (`kmh_paystack_*`); von früheren Versionen gespeicherte Bankdaten werden nicht migriert.
+
+- Neue Installationen sind sofort einsatzbereit: Die Paystack-Zahlungsart wird bei der erstmaligen Anlage allen Verkaufskanälen zugewiesen, und der Sandbox-Modus ist standardmäßig aktiv, sodass eine neue Installation nie die Live-Umgebung von Paystack aufruft, bevor er deaktiviert wird. Ein Plugin-Update fügt die Zahlungsart nie wieder zu einem Verkaufskanal hinzu, aus dem sie entfernt wurde.
+- Eine abgelehnte Karte wird jetzt als fehlgeschlagene statt als abgebrochene Zahlung erfasst. Schickt Paystack den Kunden ohne Referenz zurück (Abbruch/Zurück, einige Fehlerfälle), prüft das Plugin die beim Checkout gespeicherte Referenz und lässt den tatsächlichen Paystack-Status entscheiden: fehlgeschlagene Zahlungen schlagen fehl, abgebrochene werden storniert, erfolgreiche als bezahlt markiert und ausstehende bleiben offen.
+- Ein verspäteter `charge.success`-Webhook für einen früheren Zahlungsversuch wird nun der Bestellung zugeordnet. Jeder erneute Versuch überschreibt die gespeicherte Referenz; deshalb wird die Bestelltransaktions-ID zusätzlich in den Paystack-Metadaten gesendet und als Ersatz-Suche genutzt. Die Zahlung wird weiterhin bei Paystack verifiziert, bevor die Bestellung als bezahlt markiert wird.
+- Dokumentation: Verhalten bei der Erstinstallation, die Anforderung, dass die Checkout-Währung in Ihrem Paystack-Konto aktiviert ist, sowie Hinweise zu „Insufficient Funds" in der Sandbox bei hohen Beträgen und zum Standardtext der Shopware-Statusmails.
+
 # 0.9.0-beta.2
 
 Zweite Vorabversion. Weiterhin für interne Entwicklung, QA und Sandbox-/

@@ -104,7 +104,7 @@ Shopware.Component.override('sw-order-detail', {
 
                 if (this.paystackOrder?.salesChannelId) {
                     this.config = await this.systemConfigApiService.getValues(
-                        'KommandhubPaystackSW.config',
+                        'KmhPaystackSW.config',
                         this.paystackOrder.salesChannelId
                     );
                 }

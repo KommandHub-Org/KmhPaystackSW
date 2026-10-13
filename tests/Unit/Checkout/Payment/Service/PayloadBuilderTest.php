@@ -333,6 +333,41 @@ class PayloadBuilderTest extends TestCase
         $this->assertEquals('https://return.url', $payload['metadata']['cancel_action']);
     }
 
+    /**
+     * The order transaction id always travels in the Paystack metadata so a late
+     * webhook for an older retry attempt can still be matched to its order.
+     */
+    public function testMetadataAlwaysCarriesTheOrderTransactionId(): void
+    {
+        $orderTransaction = $this->createMock(OrderTransactionEntity::class);
+        $orderTransaction->method('getId')->willReturn('order-transaction-123');
+        $transactionStruct = $this->createMock(PaymentTransactionStruct::class);
+        $order = $this->createMock(OrderEntity::class);
+        $customer = $this->createMock(OrderCustomerEntity::class);
+        $currency = $this->createMock(CurrencyEntity::class);
+
+        $orderTransaction->method('getOrder')->willReturn($order);
+        $order->method('getOrderCustomer')->willReturn($customer);
+        $order->method('getCurrency')->willReturn($currency);
+        $transactionStruct->method('getReturnUrl')->willReturn('https://return.url');
+        $order->method('getSalesChannelId')->willReturn('sales-channel-id');
+
+        $price = $this->createMock(CalculatedPrice::class);
+        $price->method('getTotalPrice')->willReturn(10.0);
+        $orderTransaction->method('getAmount')->willReturn($price);
+        $currency->method('getIsoCode')->willReturn('NGN');
+        $customer->method('getEmail')->willReturn('test@example.com');
+
+        $this->config->method('get')->willReturnMap([
+            ['paymentOptions', [], 'sales-channel-id', null],
+            ['metaData', [], 'sales-channel-id', []],
+        ]);
+
+        $payload = $this->payloadBuilder->build($orderTransaction, $transactionStruct);
+
+        $this->assertSame('order-transaction-123', $payload['metadata']['order_transaction_id']);
+    }
+
     public function testBuildWithInvalidMetadataOptions(): void
     {
         $orderTransaction = $this->createMock(OrderTransactionEntity::class);

@@ -4,13 +4,13 @@
     {{ parent() }}
 
     {% block page_account_profile_paystack_bank_visibility %}
-        {% if config('KommandhubPaystackSW.config.collectBankData') %}
+        {% if config('KmhPaystackSW.config.collectBankData') %}
             {% block page_account_profile_paystack_bank_card %}
             <div class="card account-profile-bank mb-5">
                 <div class="card-body">
                     {% block page_account_profile_paystack_bank_header %}
                         <div class="card-title">
-                            {{ 'kommandhub-paystack.bankTitle'|trans|sw_sanitize }}
+                            {{ 'kmh-paystack.bankTitle'|trans|sw_sanitize }}
                         </div>
                     {% endblock %}
 
@@ -21,7 +21,7 @@
                             {% set paystackBankVerificationOptions = {
                                 banksUrl: path('frontend.paystack.bank.list'),
                                 verifyUrl: path('frontend.paystack.bank.verify'),
-                                initialBankCode: customFields.kommandhub_paystack_bank_code
+                                initialBankCode: customFields.kmh_paystack_bank_code
                             } %}
 
                             <form id="profileBankForm"
@@ -36,14 +36,14 @@
                                     {% block page_account_profile_paystack_bank_form_bank_name %}
                                         <div class="form-group col-12">
                                             <label class="form-label" for="bankName">
-                                                {{ 'kommandhub-paystack.bankNameLabel'|trans|sw_sanitize }}
+                                                {{ 'kmh-paystack.bankNameLabel'|trans|sw_sanitize }}
                                             </label>
                                             <select class="form-select"
                                                     id="bankName"
                                                     name="bankName">
                                                 {% block page_account_profile_paystack_bank_form_bank_name_options %}
                                                 <option value="" disabled selected>
-                                                    {{ 'kommandhub-paystack.bankNamePlaceholder'|trans|sw_sanitize }}
+                                                    {{ 'kmh-paystack.bankNamePlaceholder'|trans|sw_sanitize }}
                                                 </option>
                                                 {% endblock %}
                                             </select>
@@ -51,18 +51,18 @@
                                     {% endblock %}
 
                                     {% block page_account_profile_paystack_bank_form_bvn %}
-                                        {% if config('KommandhubPaystackSW.config.showBvnField') %}
+                                        {% if config('KmhPaystackSW.config.showBvnField') %}
                                             <div class="form-group col-12">
                                                 <label class="form-label" for="bvn">
-                                                    {{ 'kommandhub-paystack.bvnLabel'|trans|sw_sanitize }}
+                                                    {{ 'kmh-paystack.bvnLabel'|trans|sw_sanitize }}
                                                 </label>
                                                 <input type="text"
                                                     class="form-control"
                                                     id="bvn"
                                                     name="bvn"
-                                                    value="{{ customFields.kommandhub_paystack_bvn }}"
-                                                    placeholder="{{ 'kommandhub-paystack.bvnPlaceholder'|trans|sw_sanitize }}"
-                                                    {% if config('KommandhubPaystackSW.config.requireBvn') %}required{% endif %}>
+                                                    value="{{ customFields.kmh_paystack_bvn }}"
+                                                    placeholder="{{ 'kmh-paystack.bvnPlaceholder'|trans|sw_sanitize }}"
+                                                    {% if config('KmhPaystackSW.config.requireBvn') %}required{% endif %}>
                                                 <div class="invalid-feedback"></div>
                                                 <div class="valid-feedback"></div>
                                             </div>
@@ -72,14 +72,14 @@
                                     {% block page_account_profile_paystack_bank_form_account_number %}
                                         <div class="form-group col-md-6">
                                             <label class="form-label" for="accountNumber">
-                                                {{ 'kommandhub-paystack.accountNumberLabel'|trans|sw_sanitize }}
+                                                {{ 'kmh-paystack.accountNumberLabel'|trans|sw_sanitize }}
                                             </label>
                                             <input type="text"
                                                 class="form-control"
                                                 id="accountNumber"
                                                 name="accountNumber"
-                                                value="{{ customFields.kommandhub_paystack_account_number }}"
-                                                placeholder="{{ 'kommandhub-paystack.accountNumberPlaceholder'|trans|sw_sanitize }}"
+                                                value="{{ customFields.kmh_paystack_account_number }}"
+                                                placeholder="{{ 'kmh-paystack.accountNumberPlaceholder'|trans|sw_sanitize }}"
                                                 required>
                                             <div class="invalid-feedback"></div>
                                             <div class="valid-feedback"></div>
@@ -89,14 +89,14 @@
                                     {% block page_account_profile_paystack_bank_form_account_name %}
                                         <div class="form-group col-md-6">
                                             <label class="form-label" for="accountName">
-                                                {{ 'kommandhub-paystack.accountNameLabel'|trans|sw_sanitize }}
+                                                {{ 'kmh-paystack.accountNameLabel'|trans|sw_sanitize }}
                                             </label>
                                             <input type="text"
                                                 class="form-control"
                                                 id="accountName"
                                                 name="accountName"
-                                                value="{{ customFields.kommandhub_paystack_account_name }}"
-                                                placeholder="{{ 'kommandhub-paystack.accountNamePlaceholder'|trans|sw_sanitize }}"
+                                                value="{{ customFields.kmh_paystack_account_name }}"
+                                                placeholder="{{ 'kmh-paystack.accountNamePlaceholder'|trans|sw_sanitize }}"
                                                 readonly>
                                         </div>
                                     {% endblock %}
@@ -107,7 +107,7 @@
                                     <div class="form-actions mt-3">
                                         <button type="submit"
                                                 class="btn btn-light btn-sm">
-                                            {{ 'kommandhub-paystack.saveButton'|trans|sw_sanitize }}
+                                            {{ 'kmh-paystack.saveButton'|trans|sw_sanitize }}
                                         </button>
                                     </div>
                                 {% endblock %}

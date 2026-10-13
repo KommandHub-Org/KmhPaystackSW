@@ -163,9 +163,9 @@ Paystack refund created ──► refund.pending / refund.processed webhooks upd
 ## Directory Structure
 
 ```text
-KommandhubPaystackSW/
+KmhPaystackSW/
 ├── src/
-│   ├── KommandhubPaystackSW.php          # Plugin base class (lifecycle hooks)
+│   ├── KmhPaystackSW.php          # Plugin base class (lifecycle hooks)
 │   ├── Administration/
 │   │   └── Controller/RefundController.php  # Admin refund API endpoint
 │   ├── BankVerification/
@@ -239,7 +239,7 @@ KommandhubPaystackSW/
 ```bash
 composer require kommandhub/paystack-sw
 bin/console plugin:refresh
-bin/console plugin:install --activate KommandhubPaystackSW
+bin/console plugin:install --activate KmhPaystackSW
 bin/console cache:clear
 ```
 
@@ -249,7 +249,9 @@ bin/console cache:clear
 2. In the Administration, go to **Extensions → My Extensions → Upload Extension**.
 3. Install and activate **Paystack Payment**.
 
-After installation, assign the **Paystack Payment** method to your sales channel under **Settings → Shop → Payment Methods**.
+On first installation the **Paystack Payment** method is assigned to all of your sales channels and **Sandbox Mode is on by default**, so a fresh install never talks to live Paystack until you switch it off. The method cannot be used for an order until a secret key is configured. If you only want it on some channels, adjust the assignment in the sales channel settings. Updating the plugin never re-adds the method to a channel you removed it from.
+
+Paystack only accepts currencies enabled on your Paystack account (for example NGN, GHS, ZAR, KES), and the plugin does not create currencies. Make sure the currency a customer checks out in is both enabled on your Paystack account and added to the sales channel.
 
 ---
 
@@ -259,8 +261,8 @@ The repository ships a Docker Compose stack based on [`dockware`](https://dockwa
 
 ```bash
 # 1. Clone the repository
-git clone <repository-url> KommandhubPaystackSW
-cd KommandhubPaystackSW
+git clone <repository-url> KmhPaystackSW
+cd KmhPaystackSW
 
 # 2. Start the stack (builds the container and prepares the shop)
 make up
@@ -268,12 +270,12 @@ make up
 # 3. Install and activate the plugin inside the container
 make shell
 bin/console plugin:refresh
-bin/console plugin:install --activate KommandhubPaystackSW
+bin/console plugin:install --activate KmhPaystackSW
 bin/console cache:clear
 exit
 ```
 
-The plugin directory is mounted at `/var/www/html/custom/static-plugins/KommandhubPaystackSW`; `.git/`, `node_modules/`, and `vendor/` are excluded from the mount. Changes to source files on the host are reflected immediately in the container.
+The plugin directory is mounted at `/var/www/html/custom/static-plugins/KmhPaystackSW`; `.git/`, `node_modules/`, and `vendor/` are excluded from the mount. Changes to source files on the host are reflected immediately in the container.
 
 Default dockware credentials:
 
@@ -294,7 +296,7 @@ a small [`Dockerfile`](Dockerfile):
   runs `shopware-cli --version` so a broken install fails the image build rather
   than the first `make validate-plugin`. Pin it for a reproducible build by
   passing `--build-arg SHOPWARE_CLI_IMAGE=shopware/shopware-cli:bin@sha256:<digest>`.
-- **Container**: `kommandhub-paystack-plugin`
+- **Container**: `kmh-paystack-plugin`
 - **PHP**: 8.3 (`XDEBUG_ENABLED` toggle available)
 - **Persistent volume**: `database` (MySQL data)
 
@@ -345,12 +347,12 @@ make cs-fix && make analyse && make test
 
 ## Configuration Options
 
-Configure the plugin under **Extensions → My Extensions → Paystack → Configuration**. Options are stored in Shopware's system configuration under the `KommandhubPaystackSW.config.*` domain and read through `Setting\Service\Config`.
+Configure the plugin under **Extensions → My Extensions → Paystack → Configuration**. Options are stored in Shopware's system configuration under the `KmhPaystackSW.config.*` domain and read through `Setting\Service\Config`.
 
 | Key | Type | Purpose |
 | --- | --- | --- |
 | `apiSecretKey` | password | Live secret key (`sk_live_...`) |
-| `enableSandbox` | bool | Use the sandbox/test key instead of live |
+| `enableSandbox` | bool | Use the sandbox/test key instead of live (**on by default** for new installs) |
 | `apiSecretKeySandbox` | password | Test secret key (`sk_test_...`) |
 | `enableSplitPayment` | bool | Enable Paystack split payments |
 | `subaccountCode` | text | Split payment subaccount code |
@@ -470,7 +472,7 @@ Logging goes through `Logging\ConfigurableLogger`, wired to the `paystack_channe
 2. Run:
    ```bash
    bin/console plugin:refresh
-   bin/console plugin:update KommandhubPaystackSW   # migrates handler identifier + custom fields
+   bin/console plugin:update KmhPaystackSW   # migrates handler identifier + custom fields
    bin/console cache:clear
    ```
 3. Ensure compiled Administration and Storefront assets are built and committed as part of the release.
@@ -517,6 +519,16 @@ A single plugin release supports both Shopware 6.6 and 6.7 (`shopware/core: ~6.6
 
 > **Pre-1.0 status:** the plugin is on a `0.x` version while it completes sandbox/staging validation (see [Roadmap](#roadmap)). Namespaces and the public API may still change before `1.0.0`. Once testing is complete and all critical issues are resolved, this will be promoted to `1.0.0` and submitted to the Shopware Store.
 
+### Upgrading from `0.9.0-beta.1` / `0.9.0-beta.2`
+
+In `0.9.0-beta.3` the plugin's technical name changed from `KommandhubPaystackSW` to `KmhPaystackSW`. Shopware treats a renamed plugin as a different plugin, so existing installs are **not updated in place**:
+
+1. Install and activate `KmhPaystackSW`.
+2. Re-enter your Paystack API keys and settings — they now live under the `KmhPaystackSW.config.*` configuration domain.
+3. Remove the old `KommandhubPaystackSW` plugin.
+
+The custom field set and the bank fields were renamed too (`kmh_paystack_*`); bank details saved by earlier versions are not migrated. Orders and their `paystack_*` transaction fields are unaffected.
+
 ---
 
 ## Troubleshooting
@@ -524,6 +536,18 @@ A single plugin release supports both Shopware 6.6 and 6.7 (`shopware/core: ~6.6
 **Order status not updating after payment**
 - Confirm the webhook endpoint is reachable from Paystack and the secret key matches the mode (test vs live).
 - Check `var/log/` for verification or signature errors.
+
+**Test payments fail with "Insufficient Funds"**
+- Paystack's sandbox test cards reject large amounts. Test with small orders (a few hundred in the currency, not hundreds of thousands) — an order of NGN 150 succeeds where NGN 790,000 is declined.
+
+**Payment fails with "No active channel to process transaction" or "Currency not supported by merchant"**
+- The order currency is not enabled on your Paystack account. Enable it in the Paystack dashboard, or have customers check out in a currency your account supports.
+
+**Status emails say "New document for your order" or contain "he status…"**
+- These are Shopware's own default mail templates (they are not shipped by this plugin). Edit them under **Settings → Shop → Email templates** — for example the templates for "Payment status paid / cancelled / open".
+
+**A payment was made but the order stayed open**
+- Paystack's webhook delivers `charge.success` even when the customer never returned to the shop, and the order is then finalized. Orders are matched by the stored reference or, for an earlier retry attempt, by the order transaction id the plugin sends in the Paystack metadata. Check the webhook URL and secret key.
 
 **Plugin not visible in the Administration**
 ```bash

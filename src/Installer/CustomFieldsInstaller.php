@@ -14,7 +14,7 @@ use Shopware\Core\System\CustomField\CustomFieldTypes;
 
 class CustomFieldsInstaller
 {
-    private const CUSTOM_FIELDSET_NAME = 'kommandhub_paystack_fieldset';
+    private const CUSTOM_FIELDSET_NAME = 'kmh_paystack_fieldset';
 
     private const CUSTOM_FIELDSET = [
         'name' => self::CUSTOM_FIELDSET_NAME,
@@ -28,7 +28,7 @@ class CustomFieldsInstaller
         ],
         'customFields' => [
             [
-                'name' => 'kommandhub_paystack_bank_name',
+                'name' => 'kmh_paystack_bank_name',
                 'type' => CustomFieldTypes::TEXT,
                 'config' => [
                     'label' => [
@@ -41,7 +41,7 @@ class CustomFieldsInstaller
                 ],
             ],
             [
-                'name' => 'kommandhub_paystack_bank_code',
+                'name' => 'kmh_paystack_bank_code',
                 'type' => CustomFieldTypes::TEXT,
                 'config' => [
                     'label' => [
@@ -54,7 +54,7 @@ class CustomFieldsInstaller
                 ],
             ],
             [
-                'name' => 'kommandhub_paystack_account_number',
+                'name' => 'kmh_paystack_account_number',
                 'type' => CustomFieldTypes::TEXT,
                 'config' => [
                     'label' => [
@@ -67,7 +67,7 @@ class CustomFieldsInstaller
                 ],
             ],
             [
-                'name' => 'kommandhub_paystack_account_name',
+                'name' => 'kmh_paystack_account_name',
                 'type' => CustomFieldTypes::TEXT,
                 'config' => [
                     'label' => [
@@ -80,7 +80,7 @@ class CustomFieldsInstaller
                 ],
             ],
             [
-                'name' => 'kommandhub_paystack_bvn',
+                'name' => 'kmh_paystack_bvn',
                 'type' => CustomFieldTypes::TEXT,
                 'config' => [
                     'label' => [
