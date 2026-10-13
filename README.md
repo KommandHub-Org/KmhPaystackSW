@@ -519,6 +519,16 @@ A single plugin release supports both Shopware 6.6 and 6.7 (`shopware/core: ~6.6
 
 > **Pre-1.0 status:** the plugin is on a `0.x` version while it completes sandbox/staging validation (see [Roadmap](#roadmap)). Namespaces and the public API may still change before `1.0.0`. Once testing is complete and all critical issues are resolved, this will be promoted to `1.0.0` and submitted to the Shopware Store.
 
+### Upgrading from `0.9.0-beta.1` / `0.9.0-beta.2`
+
+In `0.9.0-beta.3` the plugin's technical name changed from `KommandhubPaystackSW` to `KmhPaystackSW`. Shopware treats a renamed plugin as a different plugin, so existing installs are **not updated in place**:
+
+1. Install and activate `KmhPaystackSW`.
+2. Re-enter your Paystack API keys and settings — they now live under the `KmhPaystackSW.config.*` configuration domain.
+3. Remove the old `KommandhubPaystackSW` plugin.
+
+The custom field set and the bank fields were renamed too (`kmh_paystack_*`); bank details saved by earlier versions are not migrated. Orders and their `paystack_*` transaction fields are unaffected.
+
 ---
 
 ## Troubleshooting

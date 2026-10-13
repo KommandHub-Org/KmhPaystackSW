@@ -98,8 +98,13 @@ class AbstractEntityReaderTest extends TestCase
         $entity = new Entity();
         $entity->setUniqueIdentifier($id);
 
+        // EntitySearchResult::first() is deprecated (removed in Shopware 6.8);
+        // the reader goes through getEntities()->first() instead.
+        $entities = $this->createMock(EntityCollection::class);
+        $entities->method('first')->willReturn($entity);
+
         $result = $this->createMock(EntitySearchResult::class);
-        $result->method('first')->willReturn($entity);
+        $result->method('getEntities')->willReturn($entities);
 
         $this->repository->expects($this->once())
             ->method('search')

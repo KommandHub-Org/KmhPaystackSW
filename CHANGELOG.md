@@ -1,3 +1,15 @@
+# 0.9.0-beta.3
+
+Third pre-release. Still for internal development, QA and sandbox/staging
+testing; not yet submitted to the Shopware Store.
+
+**Upgrade note: the plugin was renamed.** Its technical name changed from `KommandhubPaystackSW` to `KmhPaystackSW`, so Shopware treats it as a different plugin and `0.9.0-beta.1` / `0.9.0-beta.2` installs are not updated in place. Install `KmhPaystackSW`, re-enter your Paystack API keys and settings (they now live under the `KmhPaystackSW.config.*` domain), and then remove the old plugin. The custom field set and the bank fields were renamed as well (`kmh_paystack_*`); bank details saved by earlier versions are not migrated.
+
+- Fresh installs are now ready to use: the Paystack payment method is assigned to all sales channels when it is first created, and Sandbox Mode is on by default, so a new install never calls live Paystack until it is switched off. Updating the plugin never re-adds the method to a channel it was removed from.
+- A declined card is now recorded as a failed payment instead of a cancelled one. When Paystack sends the customer back without a reference (cancel/back, some failures), the plugin verifies the reference stored at checkout and lets Paystack's real status decide: failed payments fail, abandoned ones are cancelled, successful ones are marked paid, and pending ones stay open.
+- A late `charge.success` webhook for an earlier payment attempt is now matched to its order. Every retry overwrites the stored reference, so the order transaction id is also sent in the Paystack metadata and used as a fallback lookup; the payment is still verified with Paystack before the order is marked paid.
+- Documentation: first-install behaviour, the requirement that the checkout currency is enabled on your Paystack account, and troubleshooting for sandbox "Insufficient Funds" on large amounts and for Shopware's default status-email wording.
+
 # 0.9.0-beta.2
 
 Second pre-release. Still for internal development, QA and sandbox/staging

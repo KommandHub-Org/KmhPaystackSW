@@ -166,6 +166,7 @@ abstract class AbstractEntityReader
                 $this->withIds([$id], $criteria),
                 $context
             )
+            ->getEntities()
             ->first();
 
         return $entity;
