@@ -53,6 +53,7 @@ class KmhPaystackSWTest extends TestCase
 
         $this->container->method('get')->willReturnMap([
             ['payment_method.repository', $repository],
+            ['sales_channel.repository', $this->createMock(EntityRepository::class)],
             [PluginIdProvider::class, $this->createMock(PluginIdProvider::class)],
             ['custom_field_set.repository', $customFieldSetRepository],
             ['custom_field_set_relation.repository', $customFieldSetRelationRepository],
@@ -76,6 +77,7 @@ class KmhPaystackSWTest extends TestCase
         $repository = $this->createMock(EntityRepository::class);
         $this->container->method('get')->willReturnMap([
             ['payment_method.repository', $repository],
+            ['sales_channel.repository', $this->createMock(EntityRepository::class)],
             [PluginIdProvider::class, $this->createMock(PluginIdProvider::class)],
         ]);
 
@@ -98,6 +100,7 @@ class KmhPaystackSWTest extends TestCase
         $repository = $this->createMock(EntityRepository::class);
         $this->container->method('get')->willReturnMap([
             ['payment_method.repository', $repository],
+            ['sales_channel.repository', $this->createMock(EntityRepository::class)],
             [PluginIdProvider::class, $this->createMock(PluginIdProvider::class)],
         ]);
 
@@ -124,6 +127,7 @@ class KmhPaystackSWTest extends TestCase
 
         $this->container->method('get')->willReturnMap([
             ['payment_method.repository', $repository],
+            ['sales_channel.repository', $this->createMock(EntityRepository::class)],
             [PluginIdProvider::class, $this->createMock(PluginIdProvider::class)],
             ['custom_field_set.repository', $customFieldSetRepository],
             ['custom_field_set_relation.repository', $customFieldSetRelationRepository],
@@ -152,6 +156,7 @@ class KmhPaystackSWTest extends TestCase
 
         $this->container->method('get')->willReturnMap([
             ['payment_method.repository', $repository],
+            ['sales_channel.repository', $this->createMock(EntityRepository::class)],
             [PluginIdProvider::class, $this->createMock(PluginIdProvider::class)],
             ['custom_field_set.repository', $customFieldSetRepository],
             ['custom_field_set_relation.repository', $customFieldSetRelationRepository],

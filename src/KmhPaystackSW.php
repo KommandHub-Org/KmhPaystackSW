@@ -15,6 +15,7 @@ use Shopware\Core\Framework\Plugin\Context\InstallContext;
 use Shopware\Core\Framework\Plugin\Context\UninstallContext;
 use Shopware\Core\Framework\Plugin\Context\UpdateContext;
 use Shopware\Core\Framework\Plugin\Util\PluginIdProvider;
+use Shopware\Core\System\SalesChannel\SalesChannelCollection;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\Config\Loader\DelegatingLoader;
 use Symfony\Component\Config\Loader\LoaderResolver;
@@ -162,9 +163,13 @@ class KmhPaystackSW extends Plugin
         /** @var PluginIdProvider $pluginIdProvider */
         $pluginIdProvider = $this->container->get(PluginIdProvider::class);
 
+        /** @var EntityRepository<SalesChannelCollection> $salesChannelRepo */
+        $salesChannelRepo = $this->container->get('sales_channel.repository');
+
         return new PaymentMethodInstaller(
             $paymentMethodRepo,
-            $pluginIdProvider
+            $pluginIdProvider,
+            $salesChannelRepo
         );
     }
 

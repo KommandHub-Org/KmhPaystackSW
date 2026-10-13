@@ -17,6 +17,7 @@ use Shopware\Core\Framework\Plugin\Util\PluginIdProvider;
 class PaymentMethodInstallerTest extends TestCase
 {
     private EntityRepository $paymentMethodRepository;
+    private EntityRepository $salesChannelRepository;
     private PluginIdProvider $pluginIdProvider;
     private PaymentMethodInstaller $installer;
     private Context $context;
@@ -24,10 +25,12 @@ class PaymentMethodInstallerTest extends TestCase
     protected function setUp(): void
     {
         $this->paymentMethodRepository = $this->createMock(EntityRepository::class);
+        $this->salesChannelRepository = $this->createMock(EntityRepository::class);
         $this->pluginIdProvider = $this->createMock(PluginIdProvider::class);
         $this->installer = new PaymentMethodInstaller(
             $this->paymentMethodRepository,
-            $this->pluginIdProvider
+            $this->pluginIdProvider,
+            $this->salesChannelRepository
         );
         $this->context = Context::createDefaultContext();
     }
@@ -48,6 +51,9 @@ class PaymentMethodInstallerTest extends TestCase
         ], $this->context);
 
         $this->paymentMethodRepository->expects($this->never())->method('create');
+        // An existing method is only refreshed: a merchant who removed it from a
+        // channel on purpose must not get it back on every plugin update.
+        $this->salesChannelRepository->expects($this->never())->method('searchIds');
 
         $this->installer->install('PluginClass', $this->context);
     }
@@ -60,6 +66,10 @@ class PaymentMethodInstallerTest extends TestCase
 
         $this->pluginIdProvider->method('getPluginIdByBaseClass')->willReturn('plugin-id');
 
+        $salesChannelIds = $this->createMock(IdSearchResult::class);
+        $salesChannelIds->method('getIds')->willReturn(['sales-channel-1', 'sales-channel-2']);
+        $this->salesChannelRepository->method('searchIds')->willReturn($salesChannelIds);
+
         $this->paymentMethodRepository->expects($this->once())->method('create')->with([
             [
                 'handlerIdentifier' => PaystackPaymentHandler::class,
@@ -69,6 +79,11 @@ class PaymentMethodInstallerTest extends TestCase
                 'technicalName' => 'kmh_paystack_payment',
                 'afterOrderEnabled' => true,
                 'active' => true,
+                // Assigned to every sales channel so it is selectable right after install.
+                'salesChannels' => [
+                    ['id' => 'sales-channel-1'],
+                    ['id' => 'sales-channel-2'],
+                ],
             ],
         ], $this->context);
 

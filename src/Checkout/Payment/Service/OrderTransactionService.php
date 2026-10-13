@@ -30,13 +30,9 @@ readonly class OrderTransactionService
      */
     public function readOneById(string $transactionId, Context $context): OrderTransactionEntity
     {
-        $orderTransaction = $this->orderTransactionReader->readOneById(
-            $transactionId,
-            $context,
-            $this->getCriteria()
-        );
+        $orderTransaction = $this->findOneById($transactionId, $context);
 
-        if (!$orderTransaction instanceof OrderTransactionEntity) {
+        if ($orderTransaction === null) {
             throw PaymentException::asyncProcessInterrupted(
                 $transactionId,
                 sprintf('Order transaction "%s" could not be found.', $transactionId)
@@ -44,6 +40,20 @@ readonly class OrderTransactionService
         }
 
         return $orderTransaction;
+    }
+
+    /**
+     * Loads an order transaction by id, or null when it does not exist.
+     */
+    public function findOneById(string $transactionId, Context $context): ?OrderTransactionEntity
+    {
+        $orderTransaction = $this->orderTransactionReader->readOneById(
+            $transactionId,
+            $context,
+            $this->getCriteria()
+        );
+
+        return $orderTransaction instanceof OrderTransactionEntity ? $orderTransaction : null;
     }
 
     /**

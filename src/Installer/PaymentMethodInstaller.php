@@ -11,20 +11,29 @@ use Shopware\Core\Framework\DataAbstractionLayer\EntityRepository;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\Criteria;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\Filter\EqualsFilter;
 use Shopware\Core\Framework\Plugin\Util\PluginIdProvider;
+use Shopware\Core\System\SalesChannel\SalesChannelCollection;
 
 readonly class PaymentMethodInstaller
 {
     /**
      * @param EntityRepository<PaymentMethodCollection> $paymentMethodRepository
+     * @param EntityRepository<SalesChannelCollection> $salesChannelRepository
      */
     public function __construct(
         private EntityRepository $paymentMethodRepository,
-        private PluginIdProvider $pluginIdProvider
+        private PluginIdProvider $pluginIdProvider,
+        private EntityRepository $salesChannelRepository
     ) {
     }
 
     /**
      * Installs the Paystack payment method if it doesn't exist.
+     *
+     * On first creation the method is assigned to the shop's sales channels so
+     * it is selectable at checkout straight after installation; the cart
+     * validator keeps it from being used until the API keys are configured.
+     * An existing method is only refreshed, never re-assigned, so a merchant who
+     * deliberately removed it from a channel does not get it back on every update.
      *
      * @param string $pluginClass The base class of the plugin
      * @param Context $context The Shopware context
@@ -56,8 +65,24 @@ readonly class PaymentMethodInstaller
                 'technicalName' => 'kmh_paystack_payment',
                 'afterOrderEnabled' => true,
                 'active' => true,
+                'salesChannels' => $this->getSalesChannelAssignments($context),
             ],
         ], $context);
+    }
+
+    /**
+     * Builds the sales channel association payload for every sales channel.
+     *
+     * @return list<array{id: string}>
+     */
+    private function getSalesChannelAssignments(Context $context): array
+    {
+        $ids = $this->salesChannelRepository->searchIds(new Criteria(), $context)->getIds();
+
+        return array_map(
+            static fn (string $id): array => ['id' => $id],
+            $ids
+        );
     }
 
     /**

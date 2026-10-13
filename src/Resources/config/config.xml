@@ -24,6 +24,7 @@
             <name>enableSandbox</name>
             <label>Enable Sandbox Mode</label>
             <label lang="de-DE">Sandbox-Modus aktivieren</label>
+            <defaultValue>true</defaultValue>
             <helpText>
                 Switch to Paystack's test environment. Payments will not be processed for real. Disable before going live.
             </helpText>

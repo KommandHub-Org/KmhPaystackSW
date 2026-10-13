@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Kommandhub\PaystackSW\Checkout\Payment\Service;
 
 use Kommandhub\PaystackSW\Setting\Service\Config;
+use Kommandhub\PaystackSW\Util\PaystackConstants;
 use Kommandhub\PaystackSW\Util\PaystackCurrencyHelper;
 use Shopware\Core\Checkout\Order\Aggregate\OrderAddress\OrderAddressEntity;
 use Shopware\Core\Checkout\Order\Aggregate\OrderLineItem\OrderLineItemCollection;
@@ -86,7 +87,7 @@ readonly class PayloadBuilder
             'currency' => $currency->getIsoCode(),
             'email' => $customer->getEmail(),
             'callback_url' => $returnUrl,
-            'metadata' => $this->buildMetadata($order, $selectedMetaData, (string)$returnUrl),
+            'metadata' => $this->buildMetadata($order, $selectedMetaData, (string)$returnUrl, $orderTransaction->getId()),
         ];
 
         // Only restrict channels when the merchant actually configured a list;
@@ -138,10 +139,14 @@ readonly class PayloadBuilder
      *
      * @return array
      */
-    private function buildMetadata(OrderEntity $order, array $selectedMetaData, string $returnUrl): array
+    private function buildMetadata(OrderEntity $order, array $selectedMetaData, string $returnUrl, string $orderTransactionId): array
     {
+        // The order transaction id is always sent. Paystack echoes metadata back in
+        // webhooks, so a late charge.success for an earlier attempt (whose reference
+        // has since been overwritten by a retry) can still be matched to its order.
         $metadata = [
             'cancel_action' => $returnUrl,
+            PaystackConstants::METADATA_ORDER_TRANSACTION_ID => $orderTransactionId,
             'custom_fields' => [],
         ];
 

@@ -249,7 +249,9 @@ bin/console cache:clear
 2. In the Administration, go to **Extensions → My Extensions → Upload Extension**.
 3. Install and activate **Paystack Payment**.
 
-After installation, assign the **Paystack Payment** method to your sales channel under **Settings → Shop → Payment Methods**.
+On first installation the **Paystack Payment** method is assigned to all of your sales channels and **Sandbox Mode is on by default**, so a fresh install never talks to live Paystack until you switch it off. The method cannot be used for an order until a secret key is configured. If you only want it on some channels, adjust the assignment in the sales channel settings. Updating the plugin never re-adds the method to a channel you removed it from.
+
+Paystack only accepts currencies enabled on your Paystack account (for example NGN, GHS, ZAR, KES), and the plugin does not create currencies. Make sure the currency a customer checks out in is both enabled on your Paystack account and added to the sales channel.
 
 ---
 
@@ -350,7 +352,7 @@ Configure the plugin under **Extensions → My Extensions → Paystack → Confi
 | Key | Type | Purpose |
 | --- | --- | --- |
 | `apiSecretKey` | password | Live secret key (`sk_live_...`) |
-| `enableSandbox` | bool | Use the sandbox/test key instead of live |
+| `enableSandbox` | bool | Use the sandbox/test key instead of live (**on by default** for new installs) |
 | `apiSecretKeySandbox` | password | Test secret key (`sk_test_...`) |
 | `enableSplitPayment` | bool | Enable Paystack split payments |
 | `subaccountCode` | text | Split payment subaccount code |
@@ -524,6 +526,18 @@ A single plugin release supports both Shopware 6.6 and 6.7 (`shopware/core: ~6.6
 **Order status not updating after payment**
 - Confirm the webhook endpoint is reachable from Paystack and the secret key matches the mode (test vs live).
 - Check `var/log/` for verification or signature errors.
+
+**Test payments fail with "Insufficient Funds"**
+- Paystack's sandbox test cards reject large amounts. Test with small orders (a few hundred in the currency, not hundreds of thousands) — an order of NGN 150 succeeds where NGN 790,000 is declined.
+
+**Payment fails with "No active channel to process transaction" or "Currency not supported by merchant"**
+- The order currency is not enabled on your Paystack account. Enable it in the Paystack dashboard, or have customers check out in a currency your account supports.
+
+**Status emails say "New document for your order" or contain "he status…"**
+- These are Shopware's own default mail templates (they are not shipped by this plugin). Edit them under **Settings → Shop → Email templates** — for example the templates for "Payment status paid / cancelled / open".
+
+**A payment was made but the order stayed open**
+- Paystack's webhook delivers `charge.success` even when the customer never returned to the shop, and the order is then finalized. Orders are matched by the stored reference or, for an earlier retry attempt, by the order transaction id the plugin sends in the Paystack metadata. Check the webhook URL and secret key.
 
 **Plugin not visible in the Administration**
 ```bash

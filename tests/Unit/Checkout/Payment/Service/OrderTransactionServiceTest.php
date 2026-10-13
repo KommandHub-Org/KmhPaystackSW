@@ -101,4 +101,20 @@ class OrderTransactionServiceTest extends TestCase
 
         $this->assertSame($transaction, $result);
     }
+
+    public function testFindOneByIdReturnsTheTransaction(): void
+    {
+        $context = Context::createDefaultContext();
+        $transaction = $this->createMock(OrderTransactionEntity::class);
+        $this->reader->method('readOneById')->willReturn($transaction);
+
+        $this->assertSame($transaction, $this->service->findOneById('id', $context));
+    }
+
+    public function testFindOneByIdReturnsNullWhenMissing(): void
+    {
+        $this->reader->method('readOneById')->willReturn(null);
+
+        $this->assertNull($this->service->findOneById('missing', Context::createDefaultContext()));
+    }
 }

@@ -55,6 +55,29 @@ class KmhPaystackSWTest extends TestCase
         self::assertTrue($this->getPaymentMethod()?->getActive());
     }
 
+    public function testInstallAssignsThePaymentMethodToEverySalesChannel(): void
+    {
+        $this->plugin->install($this->createInstallContext());
+
+        $criteria = (new Criteria())
+            ->addFilter(new EqualsFilter('technicalName', 'kmh_paystack_payment'))
+            ->addAssociation('salesChannels');
+
+        /** @var PaymentMethodEntity|null $paymentMethod */
+        $paymentMethod = static::getContainer()
+            ->get('payment_method.repository')
+            ->search($criteria, Context::createDefaultContext())
+            ->first();
+
+        $expected = static::getContainer()
+            ->get('sales_channel.repository')
+            ->searchIds(new Criteria(), Context::createDefaultContext())
+            ->getTotal();
+
+        self::assertInstanceOf(PaymentMethodEntity::class, $paymentMethod);
+        self::assertSame($expected, $paymentMethod->getSalesChannels()?->count() ?? 0);
+    }
+
     public function testUninstallDisablesPaymentMethodAndRemovesCustomFields(): void
     {
         $this->plugin->install($this->createInstallContext());
